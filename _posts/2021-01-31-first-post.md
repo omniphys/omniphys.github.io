@@ -16,6 +16,17 @@ def print_hi(name):
 print_hi('Tom')
 ​```
 
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5">
+function setup() {
+  createCanvas(100, 100);
+}
+
+function draw() {
+  background(255, 0, 200);
+}
+</script>
+
 Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
 [jekyll-docs]: https://jekyllrb.com/docs/home

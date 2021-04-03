@@ -1,12 +1,28 @@
 # main links
 main:
-  - title: "Physics Engine"
-    url: /docs/physics-engine/
-  - title: "About"
-    url: /about/
-  - title: "Game Dev"
-    url: /docs/game-dev/
+  - title: "자바스크립트로 물리 엔진 만들기"
+    url: /p5js-basic/
+  #- title: "게임 & 시뮬레이션"
+  #  url: 
+  #- title: "머신러닝"
+  #  url: 
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"
   #   url: /sitemap/
+  
+# documentation links
+docs:
+  - title: 자바스크립트로 물리 엔진 만들기
+    children:
+      - title: "p5.js 기본"
+        url: /p5js-basic/
+      - title: "벡터"
+        url: /vector/
+      - title: "힘과 운동"
+        url: /force/
+      - title: "입자계 물리"
+        url: /particles/
+      - title: "충돌"
+        url: /collision/
+  

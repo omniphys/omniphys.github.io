@@ -1,11 +1,11 @@
 # main links
 main:
-  - title: "Quick-Start Guide"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
-  # - title: "About"
-  #   url: https://mmistakes.github.io/minimal-mistakes/about/
-  # - title: "Sample Posts"
-  #   url: /year-archive/
+  - title: "Physics Engine"
+    url: /docs/physics-engine/
+  - title: "About"
+    url: /about/
+  - title: "Game Dev"
+    url: /docs/game-dev/
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"

@@ -17,7 +17,7 @@ docs:
     children:
       - title: "p5.js 기본"
         url: /p5js-basic/
-      - title: "벡터"
+      - title: "벡터와 우농"
         url: /vector/
       - title: "힘과 운동"
         url: /force/

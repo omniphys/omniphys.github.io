@@ -95,7 +95,7 @@ function draw() {
 
 이번에는 캔버스에 타원, 사각형 함수를 이용하여 다음과 같은 눈사람을 그려봅시다.
 
-!["테스트"](/assets/images/snowman.png)
+!["눈사람"](/assets/images/snowman.png)
 
 보기의 눈사람에 눈과 코, 입까지 그려본다면 더 멋진 눈사람이 완성되겠죠?
 

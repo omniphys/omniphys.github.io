@@ -178,7 +178,7 @@ vel.limit(10);  // 속도의 최대치를 10으로 제한합니다.
 pos.add(vel);   // 위치에 속도만큼 벡터합을 해줍니다.
 ```
 
-> ### 활동 3. 공의 등가속운동
+> ### 활동 4. 공의 랜덤한 가속운동
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="700">
 let pos;  // 위치 벡터 변수

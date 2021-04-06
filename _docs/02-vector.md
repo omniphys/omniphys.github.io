@@ -121,6 +121,7 @@ pos.add(vel);   // 위치에 속도만큼 벡터합을 해줍니다.
 그럼 이제 활동2의 공에 일정한 가속도를 가지도록 해보겠습니다.
 
 > ### 활동 3. 공의 등가속운동
+
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="700">
 let pos;  // 위치 벡터 변수
@@ -132,6 +133,7 @@ function setup() {
   vel = createVector(0, 0);     // 속도 벡터 초기값 설정
   acc = createVector(0.01, 0.01);  // 가속도 벡터 초기값 설정 
 }
+
 function draw() {
   background(220);
   vel.add(acc); // 속도 벡터에 가속도 만큼 벡터합
@@ -179,6 +181,7 @@ pos.add(vel);   // 위치에 속도만큼 벡터합을 해줍니다.
 ```
 
 > ### 활동 4. 공의 랜덤한 가속운동
+
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="700">
 let pos;  // 위치 벡터 변수
@@ -190,6 +193,7 @@ function setup() {
   vel = createVector(0, 0);     // 속도 벡터 초기값 설정
   acc = createVector(0, 0);  // 가속도 벡터 초기값 설정 
 }
+
 function draw() {
   background(220);
   acc = p5.Vector.random2D(); // 임의의 방향으로 크기1의 벡터가 만들어짐

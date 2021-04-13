@@ -6,71 +6,45 @@ toc: true
 toc_sticky: true
 ---
 
-## 1. 벡터와 속도
-벡터(Vector)는 크기와 방향을 가지는 물리량을 나타내는 것으로, 운동을 표현할 때 매우 유용합니다.
-운동하는 물체가 많아질수록 또한, 2차원, 3차원으로 차원이 높아질수록 벡터는 더 큰 힘을 발휘합니다.
-그럼 물체의 운동을 표현할 때 벡터를 사용하지 않는 경우와 벡터를 사용한 경우를 직접 비교해봅시다.
+## 1. 뉴턴의 운동 법칙
+힘(Force)은 모든 운동과 형태 변화의 원인이 되는 것으로 아이작 뉴턴이 정립한 개념입니다. 뉴턴은 힘과 운동의 성질은 3가지 법칙으로 정립하였는데 우리가 배운 모든 고전 역학 법칙, 공식들은 뉴턴의 운동법칙에서 유도되었다고 할 수 있을 정도로 물리학의 기본이 되는 개념입니다.
 
-> ### 활동 1. 공의 등속 운동 (벡터를 사용하지 않은 경우)
+> 제1법칙 : 관성의 법칙 (모든 물체는 현재의 운동 상태를 유지하려는 성질이 있다. 정지한 물체는 정지하려고 하고 운동하는 물체는 등속운동하려고 한다. 관성의 크기는 질량의 크기와 같다.)
 
-<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="660">
-let posX;   // 위치 x
-let posY;   // 위치 y
-let velX;   // 속도 x
-let velY;   // 속도 y
+> 제2법칙 : 운동 방정식 a = F/m (물체의 가속도는 힘에 비례하고, 질량에 반비례한다. 모든 운동에 관한 문제는 운동 방정식을 푸는 것이다.)
 
-function setup() {
-  createCanvas(100, 100);
-  
-  // 위치, 속도 변수 초기값 설정
-  posX = 100;
-  posY = 100;
-  velX = 1;
-  velY = 1.3;
- }
+> 제3법칙 : 작용-반작용 법칙 (힘은 상호작용이다.) 
 
-function draw() {
-  background(220);
-  
-  posX = posX + velX;   // 위치 x에 x방향 속도만큼 더해줌
-  posY = posY + velY;   // 위치 y에 y방향 속도만큼 더해줌
-  
-  // 벽에 충돌하면 속도 방향을 반대로 바꿔줌
-  if ((posX > width) || (posX < 0)) {
-    velX = velX * (-1);
-  }
-  if ((posY > height) || (posY < 0)) {
-    velY = velY * (-1);
-  }
-  
-  // 공의 모양, 색깔, 위치 지정
-  // 공의 위치는 매번 속도 값이 반영되어 변함
-  fill('yellow')
-  ellipse(posX, posY, 10,10);
-}
-</script>
+지난 차시의 활동 2 코드를 약간 수정해 봅시다. 가속도를 직접 대입하는 대신 힘과 질량의 관계식으로 수정해봅시다. 코드를 실행해보면 공이 낙하하여 바닥에 튕기는 모습을 볼 수 있습니다.
 
 
-> ### 활동 2. 공의 등속 운동 (벡터를 사용한 경우)
+> ### 활동 1. 중력의 구현
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="600">
+<script type="text/p5" data-height="500">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
+let acc;  // 가속도 벡터 변수
+let force;  // 힘 벡터 변수
+let mass;   // 공의 질량
+let r;      // 공의 반지름
 
 function setup() {
   createCanvas(100, 100);
-  
-  pos = createVector(100,100);  // 위치 벡터 초기값 설정
-  vel = createVector(1,1.3);    // 속도 벡터 초기값 설정
+  pos = createVector(10, 50);   // 위치 벡터 초기값 설정
+  vel = createVector(0, 0);     // 속도 벡터 초기값 설정
+  //acc = createVector(0.01, 0.01);  // 가속도 대신 질량과-힘 관계식으로 대입
+  force = createVector(0, 0.1); // 힘 벡터 초기값 설정
+  mass = 1;   // 질량 초기값 설정
+  r = 5;
+  acc = force.div(mass);
 }
 
 function draw() {
   background(220);
   
-  // 위치 벡터에 속도 만큼 백터합
-  pos.add(vel);
+  vel.add(acc); // 속도 벡터에 가속도 만큼 벡터합
+  pos.add(vel); // 위치 벡터에 속도 만큼 백터합
   
   // 벽에 충돌하면 속도 방향을 반대로 바꿔줌
   if ((pos.x > width) || (pos.x < 0)) {
@@ -80,6 +54,47 @@ function draw() {
     vel.y = vel.y * (-1);
   }
   
+  // 공의 모양, 색깔, 위치 지정
+  // 공의 위치는 매번 속도 값이 반영되어 변함
+  fill('yellow')
+  ellipse(pos.x, pos.y, r*2);
+}
+</script>
+
+코드를 실행해보면 공과 바닥면의 충돌이 약간 불안한 것을 알 수 있습니다. 
+
+
+> ### 활동 2. 중력의 구현 (공의 충돌 경계 수정) 
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="500">
+let pos;  // 위치 벡터 변수
+let vel;  // 속도 벡터 변수
+let acc;  // 가속도 벡터 변수
+function setup() {
+  createCanvas(100, 100);
+  pos = createVector(50, 50);   // 위치 벡터 초기값 설정
+  vel = createVector(0, 0);     // 속도 벡터 초기값 설정
+  acc = createVector(0.01, 0.01);  // 가속도 벡터 초기값 설정 
+}
+
+function draw() {
+  background(220);
+  vel.add(acc); // 속도 벡터에 가속도 만큼 벡터합
+  pos.add(vel); // 위치 벡터에 속도 만큼 백터합
+  // 벽에 충돌하면 반대쪽에서 다시 나타나게 함.
+  if (pos.x > width) {
+    pos.x = 0;
+  } 
+  else if (pos.x < 0) {
+    pos.x = width;
+  }
+  if (pos.y > height) {
+    pos.y = 0;
+  } 
+  else if (pos.y < 0) {
+    pos.y = height;
+  }
   // 공의 모양, 색깔, 위치 지정
   // 공의 위치는 매번 속도 값이 반영되어 변함
   fill('yellow')

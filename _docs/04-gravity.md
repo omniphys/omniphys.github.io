@@ -1,6 +1,6 @@
 ---
 title: "만유인력"
-permalink: /grivity/
+permalink: /gravity/
 last_modified_at: 2021-04-26
 toc: true
 toc_sticky: true

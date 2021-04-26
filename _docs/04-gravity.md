@@ -7,25 +7,89 @@ toc_sticky: true
 ---
 
 ## 1. 만유인력의 구현
-만유인력 또는 중력이라고 불리는 힘은 우주의 기본 힘(상호작용)입니다. 보통 중력이라고 하면 일방적으로 당겨지는 힘으로만 생각하기 쉬워서 작용-반작용의 개념을 더 추가한 만유인력으로 부르기도 합니다. 뉴턴의 사과 이야기 처럼 중력은 지구가 사과를 일방적으로 당기는 힘만 존재하는 것이 아니라 지구가 사과를 잡아당기는 만큼 사과가 지구를 같은 크기의 힘으로 잡아당기는 상호작용으로 중력을 이해해야 합니다.
+만유인력 또는 중력이라고 불리는 힘은 우주의 기본 힘(상호작용)입니다. 보통 중력이라고 하면 일방적으로 당겨지는 힘으로만 생각하기 쉬워서 작용-반작용의 개념을 더 추가한 만유인력으로 부르기도 합니다. 
+
+뉴턴의 사과 이야기 처럼 중력은 지구가 사과를 일방적으로 당기는 힘만 존재하는 것이 아니라 지구가 사과를 잡아당기는 만큼 사과가 지구를 같은 크기의 힘으로 잡아당기는 상호작용으로 중력을 이해해야 합니다. 그래서 뉴턴은 중력을 다음과 같이 정리하였습니다.
 
 !["뉴턴의 중력법칙"](/assets/images/gravity.png){: .align-center}
-> 제1법칙 : 관성의 법칙 (모든 물체는 현재의 운동 상태를 유지하려는 성질이 있다. 정지한 물체는 정지하려고 하고 운동하는 물체는 등속운동하려고 한다. 관성의 크기는 질량의 크기와 같다.)
+> 질량 m<sub>1</sub>은 질량 m<sub>2</sub>를 두 질량의 곱과 두 질량 사이의 거리의 제곱에 반비례하는 힘으로 서로 끌어 당긴다. 두 힘 F<sub>1</sub>과 F<sub>2</sub>의 크기는 같고 방향은 반대이다. G는 중력상수이다.
 
-> 제2법칙 : 운동 방정식 a = F/m (물체의 가속도는 힘에 비례하고, 질량에 반비례한다. 모든 운동에 관한 문제는 운동 방정식을 푸는 것이다.)
+그럼 중력을 코딩으로 구현해보자. 
 
-> 제3법칙 : 작용-반작용 법칙 (힘은 상호작용이다.) 
+> ### 활동 1. 중력(만유인력)의 구현
 
-이 중에서도 물리학 현상을 코딩으로 구현하기 위해서 가속도 값을 직접 넣는 대신 운동방정식 a = F/m 을 활용해서 코드를 수정할 수 있습니다. 
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
+<script type="text/p5" data-height="500">
+let pos1;  // 지구 위치 벡터 변수
+let vel1;  // 지구 속도 벡터 변수
+let acc1;  // 지구 가속도 벡터 변수
+let force1;  // 지구 중력 벡터 변수
+let mass1;   // 지구의 질량
+let r1;      // 지구의 반지름
 
-```javascript
-  mass = 1;   // 질량 초기값 설정
-  r = 5;      // 공의 반지름
-  //acc = createVector(0.01, 0.01);  // 가속도 대신 F=ma 관계식으로 대입
-  force = createVector(0, 0.1 * mass); // 힘 벡터 초기값 설정
-  acc = force.div(mass);  // 힘을 질량으로 나누어 가속도를 구함
-```
-모든 물체의 운동은 힘에 의해 발생하고 그 물체는 뉴턴의 운동법칙에 따라 운동하게 됩니다. 그럼 우리가 물리학 수업시간에 배운 여러 힘들을 코딩으로 구현해 보도록 하겠습니다.
+let pos2;  // 태양 위치 벡터 변수
+let vel2;  // 태양 속도 벡터 변수
+let acc2;  // 태양 가속도 벡터 변수
+let force2;  // 태양 중력 벡터 변수
+let mass2;   // 태양의 질량
+let r2;      // 태양의 반지름
+
+let G;  // 만유인력상수
+let strength;  // 중력의 크기
+let distance;  // 태양-지구사이의 거리
+
+function setup() {
+  createCanvas(100, 100);
+  mass1 = 1;    // 지구 질량 초기값 설정
+  mass2 = 100;  // 태양 질량 초기값 설정
+  r1 = 5;      // 지구 반지름
+  r2 = 10;     // 태양 반지름
+  G = 5;       // 만유인력 상수 
+  
+  pos1 = createVector(50, 10);   // 지구 위치 벡터 초기값 설정
+  vel1 = createVector(1, 0);     // 지구 속도 벡터 초기값 설정
+  pos2 = createVector(50, 50);   // 태양 위치 벡터 초기값 설정
+  vel2 = createVector(0, 0);     // 태양 속도 벡터 초기값 설정
+  
+}
+
+function draw() {
+  background(220);
+  
+  
+  force1 = p5.Vector.sub(pos2, pos1); // 태양이 지구를 당기는 힘
+  force2 = p5.Vector.sub(pos1, pos2); // 지구가 태양을 당기는 힘 
+
+
+  distance = constrain(force1.mag(), 50, 10000); // 거리크기제한 (너무 가까우면 힘의 크기가 무한대가 되므로)
+  //distance = force1.mag(); 
+
+  strength = G * (mass1 * mass2) / (distance * distance); //만유인력 공식
+  force1.setMag(strength);  //힘의 크기와 방향을 같이 적용
+  force2.setMag(strength);  //힘의 크기와 방향을 같이 적용
+
+  acc1 = force1.div(mass1);
+  acc2 = force2.div(mass2);
+
+  vel1.add(acc1); // 속도 벡터에 가속도 만큼 벡터합
+  pos1.add(vel1); // 위치 벡터에 속도 만큼 백터합
+  
+  vel2.add(acc2); // 속도 벡터에 가속도 만큼 벡터합
+  pos2.add(vel2); // 위치 벡터에 속도 만큼 백터합
+  
+  // 지구 그리기
+  
+  fill('blue')
+  ellipse(pos1.x, pos1.y, r1*2, r1*2);
+  
+  // 태양 그리기
+  fill('red')
+  ellipse(pos2.x, pos2.y, r2*2, r2*2);
+  
+
+}
+</script>
 
 ## 2. 중력
 

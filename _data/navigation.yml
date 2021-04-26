@@ -21,6 +21,8 @@ docs:
         url: /vector/
       - title: "힘과 운동"
         url: /force/
+      - title: "만유인력"
+        url: /gravity/
       - title: "입자계 물리"
         url: /particles/
       - title: "충돌"

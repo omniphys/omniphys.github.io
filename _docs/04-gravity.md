@@ -14,13 +14,12 @@ toc_sticky: true
 !["뉴턴의 중력법칙"](/assets/images/gravity.png){: .align-center}
 > 질량 m<sub>1</sub>은 질량 m<sub>2</sub>를 두 질량의 곱과 두 질량 사이의 거리의 제곱에 반비례하는 힘으로 서로 끌어 당긴다. 두 힘 F<sub>1</sub>과 F<sub>2</sub>의 크기는 같고 방향은 반대이다. G는 중력상수이다.
 
-그럼 중력을 코딩으로 구현해보자. 
+그럼 중력을 코딩으로 구현해봅시다.  아래 코드를 실행시켜보고 지구와 태양의 위치나 처음 속도를 변경해보세요.
 
 > ### 활동 1. 중력(만유인력)의 구현
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
-<script type="text/p5" data-height="500">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let pos1;  // 지구 위치 벡터 변수
 let vel1;  // 지구 속도 벡터 변수
 let acc1;  // 지구 가속도 벡터 변수
@@ -50,19 +49,17 @@ function setup() {
   pos1 = createVector(50, 10);   // 지구 위치 벡터 초기값 설정
   vel1 = createVector(1, 0);     // 지구 속도 벡터 초기값 설정
   pos2 = createVector(50, 50);   // 태양 위치 벡터 초기값 설정
-  vel2 = createVector(0, 0);     // 태양 속도 벡터 초기값 설정
-  
+  vel2 = createVector(0, 0);     // 태양 속도 벡터 초기값 설정  
 }
 
 function draw() {
   background(220);
   
-  
-  force1 = p5.Vector.sub(pos2, pos1); // 태양이 지구를 당기는 힘
-  force2 = p5.Vector.sub(pos1, pos2); // 지구가 태양을 당기는 힘 
-
-
-  distance = constrain(force1.mag(), 50, 10000); // 거리크기제한 (너무 가까우면 힘의 크기가 무한대가 되므로)
+  force1 = p5.Vector.sub(pos2, pos1); // 태양이 지구를 당기는 힘의 방향 벡터
+  force2 = p5.Vector.sub(pos1, pos2); // 지구가 태양을 당기는 힘의 방향 벡터
+  // 거리크기제한 (너무 가까우면 힘의 크기가 무한대가 되므로)
+  distance = constrain(force1.mag(), 50, 1000); 
+  // 아래 코드의 주석을 풀고 실행해보면 거리가 가까워질 때 중력이 너무 커져 버리는 문제가 발생함 
   //distance = force1.mag(); 
 
   strength = G * (mass1 * mass2) / (distance * distance); //만유인력 공식
@@ -79,61 +76,116 @@ function draw() {
   pos2.add(vel2); // 위치 벡터에 속도 만큼 백터합
   
   // 지구 그리기
-  
   fill('blue')
   ellipse(pos1.x, pos1.y, r1*2, r1*2);
   
   // 태양 그리기
   fill('red')
   ellipse(pos2.x, pos2.y, r2*2, r2*2);
-  
-
 }
 </script>
 
-## 2. 중력
+코드를 실행해 보면 중력에 의해 태양 주변에 행성이 도는 것 같은 결과가 잘 나타나지요?
+그런데 코드를 잘 살펴보면 좀 특이한 부분이 있습니다.
 
-지표면에서의 중력은 F=mg로 일정한 중력가속도의 값으로 지표면 방향으로만 작용합니다. 그래서 힘 벡터의 x방향 성분은 0, y방향 성분을 0.1 * mass 정도로 설정합니다. 실제 중력가속도는 9.8 m/s^2 이지만 캔버스의 크기와 실제 현실의 크기 차이가 있기 때문에 적당한 값으로 설정하였습니다. 그리고 언뜻 보기에는 좀 이상하게 보이지만 우리가 배운 물리 법칙을 구현하기 위해서 힘을 정의할 때 중력 가속도에 질량을 곱하고 다시 가속도를 구할때는 질량으로 나누는 것을 코드로 표현하였습니다. 이 때 중력 가속도는 물체의 질량과 상관없이 일정하다는 것을 기억해 보면 좋을 것 같습니다. 
+```javascript
+force1 = p5.Vector.sub(pos2, pos1); // 태양이 지구를 당기는 힘의 방향 벡터
+force2 = p5.Vector.sub(pos1, pos2); // 지구가 태양을 당기는 힘의 방향 벡터
+  
+// 거리크기제한 50~100000(너무 가까우면 힘의 크기가 무한대가 되므로)
+distance = constrain(force1.mag(), 50, 1000);
+// 아래 코드의 주석을 풀고 실행해보면 거리가 가까워질 때 중력이 너무 커져 버리는 문제가 발생함 
+//distance = force1.mag(); //
 
-지난 차시의 활동 2의 코드를 약간 수정해 봅시다. 코드를 실행해보면 공이 낙하하여 바닥에 튕기는 모습을 볼 수 있습니다.
+strength = G * (mass1 * mass2) / (distance * distance); //만유인력 공식
+force1.setMag(strength);  //힘의 크기와 방향을 같이 적용
+force2.setMag(strength);  //힘의 크기와 방향을 같이 적용
+```
 
-> ### 활동 1. 중력의 구현
+!["두 물체 사이의 중력"](/assets/images/gravitation_between_two.png){: .align-center width="313" height="240"}
+
+처음 force1, force2를 정할 때는 벡터의 차를 이용해 힘의 방향만 정합니다.
+그리고 force1, force2는 처음에 지구와 태양의 위치 차이를 나타내는 벡터이기 때문에 mag() 함수를 이용해 벡터의 크기를 구하면 둘 사이의 거리가 구해지게 됩니다.
+
+그런데 중력의 공식 특성상 거리의 제곱에 반비례하는 특징을 갖고 있습니다. 바꿔어 말하면 거리가 가까워질수록 중력의 크기는 커지게 됩니다.
+만약 거리의 가까워져서 0이 된다면 중력의 크기는 무한대가 됩니다. 컴퓨터는 무한대는 처리할 수 없는 한계를 갖고 있습니다.
+
+그래서 constrain()이라는 함수를 사용해서 거리의 한계값을 정해둡니다. 위 코드에서는 거리를 50보다 작으면 50으로 고정한다는 말이고 1000보다 크면 1000까지만 증가시킨다는 말입니다. 만약에 거리에 제한을 걸지 않고 실향하면 행성의 가속도가 너무 커져 튕겨나가는 모습을 볼 수 있습니다.
+
+그리고 마지막 부분에 뉴턴의 중력 공식을 이용해 크기를 구하고 그 크기를 setMag() 함수를 이용해 힘의 벡터 크기로 설정합니다.
+이러한 벡터와 관련된 함수들은 다음 레퍼런스에서 사용법을 한번 더 확인할 수 있습니다.
+
+[p5.js vector 관련 함수](https://p5js.org/ko/reference/#/p5.Vector)
+
+## 2. 클래스로 중력 구현하기
+
+활동 1의 코드를 살펴보다 보면 약간 지저분하다는 느낌이 드실 것입니다. 비슷한 변수와 함수들이 반복되는 것을 볼 수 있습니다. 만약에 태양을 도는 행성이 1개가 아니라 여러개라면 반복되는 코드가 더 많아지고 코드는 더 지저분해 보일 것입니다.
+
+그래서 프로그래밍에서는 이렇게 반복되는 부분을 클래스(class)라는 틀을 만들어서 필요할 때마다 객체(object)로 찍어내는 기법을 활용합니다. 이러한 프로그래밍 방식을 객체지향 프로그래밍이라고 합니다. 예를 들어 자동차라는 클래스를 만들어 놓으면 다양한 종류의 자동차를 쉽게 만들어 낼 수 있습니다. 
+
+!["객체지향프로그래밍"](/assets/images/oop.png){: .align-center}
+
+그럼 활동 1의 코드를 클래스로 다시 구현해 보도록 하겠습니다.
+
+> ### 활동 2. 클래스 만들기
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="500">
-let pos;  // 위치 벡터 변수
-let vel;  // 속도 벡터 변수
-let acc;  // 가속도 벡터 변수
-let force;  // 힘 벡터 변수
-let mass;   // 공의 질량
-let r;      // 공의 반지름
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
+class Planet{
+  constructor(x, y, vx, vy, m, r, c) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(vx, vy);
+    this.acc = createVector(0, 0);
+    this.mass = m;
+    this.r = r;
+    this.G = 5;
+    this.color = c;
+  }
+  
+  attract(other) {
+    let force = p5.Vector.sub(other.pos, this.pos);
+    let distance = force.mag();
+    distance = constrain(distance, 50, 1000);
+    let strength = (this.G * this.mass * other.mass) / (distance * distance);
+    force.setMag(strength);
+    this.applyForce(force);
+  }
+  
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acc.add(f);
+  }
+  
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
+  }
+  
+  show() {
+    fill(this.color);
+    ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+  }
+}
 
 function setup() {
   createCanvas(100, 100);
-  mass = 1;   // 질량 초기값 설정
-  r = 5;      // 공의 반지름
-  pos = createVector(50, 10);   // 위치 벡터 초기값 설정
-  vel = createVector(0, 0);     // 속도 벡터 초기값 설정
-  //acc = createVector(0.01, 0.01);  // 가속도 대신 질량과-힘 관계식으로 대입
-  force = createVector(0, 0.1 * mass); // 힘 벡터 초기값 설정
-  acc = force.div(mass);
+  
+  sun = new Planet(50, 50, 0, 0, 100, 10, 'red');
+  earth = new Planet(50, 10, 1, 0, 1, 5, 'blue');
 }
 
 function draw() {
   background(220);
   
-  vel.add(acc); // 속도 벡터에 가속도 만큼 벡터합
-  pos.add(vel); // 위치 벡터에 속도 만큼 백터합
+  sun.attract(earth);
+  earth.attract(sun);
   
-  // 바닥에 충돌하면 속도 방향을 반대로 바꿔줌
-  if (pos.y >= height) {
-    vel.y = vel.y * (-1);
-  }
+  sun.update();
+  earth.update();
   
-  // 공의 모양, 색깔, 위치 지정
-  // 공의 위치는 매번 속도 값이 반영되어 변함
-  fill('yellow')
-  ellipse(pos.x, pos.y, r*2, r*2);
+  sun.show();
+  earth.show();
 }
 </script>
 

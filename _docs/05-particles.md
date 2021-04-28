@@ -8,7 +8,7 @@ toc_sticky: true
 
 ## 1. 입자계 시스템
 
-유명한 물리학자 리처드 파인만은 모든 지식이 파괴된 인류에게 단 한 문장만 전할 수 있다면 무엇을 전하겠냐는 질문에 이렇게 답했다고 한다.
+유명한 물리학자 리처드 파인만은 모든 지식이 파괴된 인류에게 단 한 문장만 전할 수 있다면 무엇을 전하겠냐는 질문에 이렇게 답했다고 합니다.
 
 > 모든 물질은 원자로 이루어져 있다.
 
@@ -20,7 +20,120 @@ toc_sticky: true
 
 !["파티클 효과"](/assets/images/particle_effect.jpg){: .align-center}
 
+우리는 앞선 차시에서 클래스와 객체, 배열, 반복문에 대해서 배웠습니다. 입자계 시스템을 만들 때도 바로 클래스, 객체, 배열, 반복문을 사용합니다. 그럼 활동 1을 통해 분수를 만들어볼까요?
 
+분수를 만들기 위해서 다음과 같이 Particle 클래스와 실행 부분을 구상해 봅시다. 이렇게 직접 코딩하기 전에 우리에게 친숙한 말로 기능을 먼저 구현하는 것을 의사 코드(pseudo code)라고 합니다.
+
+```javascript
+class Particle{
+  constructor(x, y) {
+    this.위치 = 초기 위치;
+    this.속도 = 랜덤한 방향과 속도(속도 크기는 0.5~2)
+    this.객체생존시간 = 객체가 유지되는 정도;
+  }
+  applyForce() { 중력 작용 }
+  finished() { 객체 생존시간이 지나면 true를 반환 }
+  edges() { 객체가 바닥에 튕기게 설정 }
+  update() { 객체의 가속도, 속도, 위치 갱신 }
+  show() { 객체 그리기 }
+}
+
+function setup() { 캔버스 크기 설정 }
+
+function draw() {
+  Particle 클래스로 객체를 생성하여 particles 배열에 저장
+  객체에 중력을 적용하고 바닥을 설정하고, 위치를 갱신하고, 캔버스에 그림
+  객체 생존시간이 지난 객체는 particles 배열에서 제거
+}  
+```
+
+이렇게 전체적인 프로그래밍 구상이 끝나면 해당하는 기능을 구현하기 위해 레퍼런스를 찾아가면서 해당 명령어를 찾아 적용시키기만 하면 됩니다. 분수를 구현하기 위해서 새롭게 나온 함수는 다음과 같습니다.
+
+```javascript
+// 임의의 각도에서 새로운 2D 단위 벡터를 생성합니다.
+p5.Vector.random2D();
+// x=50, y=20 인자를 Particle 클래스에 넘기면서 
+// 새로운 객체를 형성하여 배열에 순서대로 저장함.
+배열.push(new Particle(50,20));
+// 객체를 배열에서 제거
+배열.splice(i, 1);
+```
+
+> ### 활동 1. 입자계로 분수 만들기 
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
+let particles = [];
+
+class Particle{
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = p5.Vector.random2D();
+    this.vel.mult(random(0.5, 2));
+    this.mass = 1;
+    this.acc = createVector(0, 0);
+    this.r = 2;
+    this.lifetime = 255;
+  }
+  
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acc.add(f);
+  }
+  
+  finished() {
+    return this.lifetime < 0;
+  }
+  
+  edges() {
+    if (this.pos.y >= height - this.r) {
+      this.pos.y = height - this.r;
+      this.vel.y *= -0.8;
+    }
+  }
+  
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
+    
+    this.lifetime -= 5;
+  }
+  
+  show() {
+    stroke(0,100,255, this.lifetime);
+    strokeWeight(2);
+    fill(0,200,255, this.lifetime);
+    ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+  }
+}
+
+function setup() {
+  createCanvas(100, 100);
+}
+
+function draw() {
+  background(220);
+  
+  for (let i = 0; i < 3; i++) {
+    particles.push(new Particle(50, 20));
+  }
+
+  for (let particle of particles) {
+    let gravity = createVector(0, 0.2);
+    particle.applyForce(gravity);
+    particle.edges();
+    particle.update();
+    particle.show();
+  }
+  
+  for (let i = particles.length - 1; i >= 0; i--) {
+    if (particles[i].finished()) {
+      particles.splice(i, 1);
+    }
+  }
+}
+</script>
 
 
 ```javascript

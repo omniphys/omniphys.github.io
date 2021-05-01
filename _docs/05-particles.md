@@ -60,7 +60,7 @@ p5.Vector.random2D();
 배열.splice(i, 1);
 ```
 
-> ### 활동 1. 입자계로 분수 만들기 
+> ### 활동 1. 분수 만들기 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="500" data-p5-version="1.2.0">
@@ -149,51 +149,136 @@ function draw() {
 
 코드를 실행해 보면 객체가 한 점에서 랜덤한 속도로 생성되어 분수에서 물이 나오는 것처럼 보여지는  것을 확인할 수 있습니다. 활동 1 코드에서 생성되는 객체의 갯수나 생존시간을 조절해보면서 제일 그럴듯한 분수의 모양을 만들어 보세요.
 
-## 2. 불꽃놀이 만들기
+활동 1코드를 약간 수정하면 불꽃이 타오르는 효과도 낼 수 있답니다. 어디를 수정해야 할까요?
+일단 불꽃은 위로 타오르니까 중력의 영향을 없앨 필요가 있고, 대신 윗방향으로 등속운동하고 가정해 봅시다. 그럼 활동 2의 코드를 보시면서 어디를 수정했는지 살펴보시기 바랍니다. 그리고 여러분 만의 불꽃을 만들어보세요.
 
-하늘에서 터지는 불꽃놀이는 
+> ### 활동 2. 불꽃 효과 만들기 
 
-> ### 활동 2. 입자계로 불꽃놀이 만들기 
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
+let particles = [];
+
+class Particle{
+  constructor(x, y) {
+    this.pos = createVector(random(45, 55), y);
+    // 속도를 위로 향하도록 설정
+    this.vel = createVector(random(-0.5, 0.5), random(-3, -1));
+    this.mass = 1;
+    this.acc = createVector(0, 0);
+    this.r = 3;
+    this.lifetime = 255;
+  }
+  
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acc.add(f);
+  }
+  
+  finished() {
+    return this.lifetime < 0;
+  }
+  
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
+    
+    this.lifetime -= 10;
+  }
+  
+  show() {
+    // 선의 두께를 0으로 설정하고 내부만 색칠
+    noStroke();
+    fill(random(230,255), random(50, 100), 10, this.lifetime);
+    ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+  }
+}
+
+function setup() {
+  createCanvas(100, 100);
+}
+
+function draw() {
+  background(220);
+  
+  for (let i = 0; i < 5; i++) {
+    particles.push(new Particle(50, 100));
+  }
+
+  for (let particle of particles) {
+    // 불 입자는 중력이 작용하지 않고 윗방향으로 등속운동하는 것으로 구현
+    let gravity = createVector(0, 0);
+    particle.applyForce(gravity);
+    particle.update();
+    particle.show();
+  }
+  
+  for (let i = particles.length - 1; i >= 0; i--) {
+    if (particles[i].finished()) {
+      particles.splice(i, 1);
+    }
+  }
+}
+</script>
+
+## 2. 입자계로 불꽃놀이 만들기
+
+하늘에서 터지는 불꽃놀이도 입자계 시스템으로 표현할 수 있습니다. 앞서 분수와의 차이점은 분수는 한점에서 계속 객체를 생성하는 것이라면 불꽃놀이는 각 위치별로 수백개의 객체를 배열로 저장해서 한 번에 보여주는 것입니다. 
+
+아래 의사 코드처럼 각 위치별로 fireworks 객체를 생성하고 그 안에서 particles객체를 생성합니다. 이중으로 클래스를 사용하는 것입니다.
+
+```javascript
+// 불꽃놀이 본체 클래스
+class Firework{
+  constructor(x, y) {
+    this.위치 = 랜덤한 위치;
+    Particle 클래스로 100개 이상의 객체를 생성하여 particles 배열에 저장
+  }  
+}
+// 불꽃놀이 입자 클래스
+class Particle{
+  constructor(x, y) {
+    this.위치 = 초기 위치;
+    this.속도 = 랜덤한 방향과 속도
+    this.객체생존시간 = 객체가 유지되는 정도;
+  }
+  applyForce() { 중력 작용 }
+  done() { 객체 생존시간이 지나면 true를 반환 }
+  update() { 객체의 가속도, 속도, 위치 갱신 }
+  show() { 객체 그리기 }
+}
+
+function setup() { 캔버스 크기 설정 }
+
+function draw() {
+  Firework 클래스로 fireworks 객체 생성 (일정한 확률로 생성하게 함)
+  particles 객체가 모두 사라지면 fireworks 객체도 제거
+}  
+```
+그럼 활동 2를 통해 직접 코딩으로 구현해 보겠습니다. 활동 1보다 약간 구조가 복잡해졌지만 천천히 따라가면서 실행해보면 이해가 될 것입니다. 코드에서 불꽃놀이 입자의 갯수라던지, 발생 확률, 불꽃놀이 입자의 속도의 범위를 한번 바꿔서 실행해 보세요. 
+
+> ### 활동 3. 불꽃놀이 만들기 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let fireworks = [];
 let gravity;
 
-function setup() {
-  createCanvas(100, 100);
-  gravity = createVector(0, 0.2);
-
-}
-
-function draw() {
-  colorMode(RGB);
-  background(0, 0, 0, 25);
-  
-  if (random(1) < 0.01) {
-    fireworks.push(new Firework());
-  }
-  
-  for (let i = fireworks.length - 1; i >= 0; i--) {
-    fireworks[i].update();
-    fireworks[i].show();
-    
-    if (fireworks[i].done()) {
-      fireworks.splice(i, 1);
-    }
-  }
-}
-
+// 불꽃놀이 본체 클래스
 class Firework {
   constructor() {
-    this.hu = random(255);
-    this.firework = new Particle(random(width), height, this.hu, true);
-    this.exploded = false;
     this.particles = [];
+    this.firework = new Particle(random(width), random(height/4, height/2));
+    // 불꽃놀이 입자를 100개 만듬   
+    for (let i = 0; i < 100; i++) {
+      const p = new Particle(this.firework.pos.x, this.firework.pos.y);
+      this.particles.push(p);
+    }
   }
 
   done() {
-    if (this.exploded && this.particles.length === 0) {
+    // particles 배열에서 객체가 모두 제거되어 크기가 0이 되면
+    if (this.particles.length === 0) {
       return true;
     } else {
       return false;
@@ -201,57 +286,31 @@ class Firework {
   }
 
   update() {
-    if (!this.exploded) {
-      this.firework.applyForce(gravity);
-      this.firework.update();
-
-      if (this.firework.vel.y >= 0) {
-        this.exploded = true;
-        this.explode();
-      }
-    }
-
     for (let i = this.particles.length - 1; i >= 0; i--) {
       this.particles[i].applyForce(gravity);
       this.particles[i].update();
-
+      // 입자의 생존시간이 지나면 불꽃놀이 입자를 배열에서 제거 
       if (this.particles[i].done()) {
         this.particles.splice(i, 1);
       }
     }
   }
 
-  explode() {
-    for (let i = 0; i < 100; i++) {
-      const p = new Particle(this.firework.pos.x, this.firework.pos.y, this.hu, false);
-      this.particles.push(p);
-    }
-  }
-
   show() {
-    if (!this.exploded) {
-      this.firework.show();
-    }
-
     for (var i = 0; i < this.particles.length; i++) {
       this.particles[i].show();
     }
   }
 }
 
+// 불꽃놀이 입자 클래스
 class Particle {
-  constructor(x, y, hu, firework) {
+  constructor(x, y) {
     this.pos = createVector(x, y);
-    this.firework = firework;
-    this.lifespan = 255;
-    this.hu = hu;
     this.acc = createVector(0, 0);
-    if (this.firework) {
-      this.vel = createVector(0, random(-6, -4));
-    } else {
-      this.vel = p5.Vector.random2D();
-      this.vel.mult(random(2, 10));
-    }
+    this.vel = p5.Vector.random2D();
+    this.vel.mult(random(0, 1));
+    this.lifetime = 255;
   }
 
   applyForce(force) {
@@ -259,38 +318,50 @@ class Particle {
   }
 
   update() {
-    if (!this.firework) {
-      this.vel.mult(0.9);
-      this.lifespan -= 4;
-    }
     this.vel.add(this.acc);
     this.pos.add(this.vel);
-    this.acc.mult(0);
+    this.acc.mult(0);    
+    this.lifetime -= 4;
   }
 
   done() {
-    if (this.lifespan < 0) {
-      return true;
-    } else {
-      return false;
-    }
+    // 객체 생존 시간이 0보다 작으면 true 를 반환
+    return this.lifetime < 0;
   }
 
   show() {
-    colorMode(HSB);
-
-    if (!this.firework) {
-      strokeWeight(2);
-      stroke(this.hu, 255, 255, this.lifespan);
-    } else {
-      strokeWeight(4);
-      stroke(this.hu, 255, 255);
-    }
-
+    strokeWeight(2);
+    stroke(255, 255, 0, this.lifetime);
+    // 입자를 점으로 그림
     point(this.pos.x, this.pos.y);
   }
 }
+
+function setup() {
+  createCanvas(100, 100);
+  gravity = createVector(0, 0.05);
+}
+
+function draw() {
+  background(0,100);  
+  // 숫자가 랜덤하게 0~1사이 숫자가 발생할 때 0.1보다 작을때만 불꽃놀이 객체 생성
+  // 0.1 숫자보다 크게 하면 불꽃놀이 발생 확률이 높아짐
+  if (random(1) < 0.1) {
+    fireworks.push(new Firework());
+  }
+  
+  for (let i = fireworks.length - 1; i >= 0; i--) {
+    fireworks[i].update();
+    fireworks[i].show();
+    
+    // 불꽃놀이 입자가 모두 사라지면 불꽃놀이 본체를 제거
+    if (fireworks[i].done()) {
+      fireworks.splice(i, 1);
+    }
+  }
+}
 </script>
+
 
 
 > 그럼 활동 4의 코드를 수정하여 간단한 마찰력을 구현해 봅시다. 

@@ -1,12 +1,12 @@
 ---
-title: "입자계 물리"
-permalink: /particles/
-last_modified_at: 2021-04-28
+title: "충돌"
+permalink: /collision/
+last_modified_at: 2021-05-01
 toc: true
 toc_sticky: true
 ---
 
-## 1. 입자계 시스템
+## 1. 충돌의 물리학
 
 유명한 물리학자 리처드 파인만은 모든 지식이 파괴된 인류에게 단 한 문장만 전할 수 있다면 무엇을 전하겠냐는 질문에 이렇게 답했다고 합니다.
 

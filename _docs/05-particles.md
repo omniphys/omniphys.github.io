@@ -18,7 +18,7 @@ toc_sticky: true
 
 특히 불, 물, 연기와 같은 유체의 운동을 표현하기 위해서는 한 두개의 입자가 아닌 입자계 시스템을 사용합니다.
 
-!["파티클 효과"](/assets/images/particle_effect.jpg){: .align-center}
+!["파티클 효과"](/assets/images/particle_effect.jpg){: .align-center }
 
 우리는 앞선 차시에서 클래스와 객체, 배열, 반복문에 대해서 배웠습니다. 입자계 시스템을 만들 때도 바로 클래스, 객체, 배열, 반복문을 사용합니다. 그럼 활동 1을 통해 분수를 만들어볼까요?
 

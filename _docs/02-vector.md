@@ -14,7 +14,7 @@ toc_sticky: true
 > ### 활동 1. 공의 등속 운동 (벡터를 사용하지 않은 경우)
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="660">
+<script type="text/p5" data-height="660" data-p5-version="1.2.0">
 let posX;   // 위치 x
 let posY;   // 위치 y
 let velX;   // 속도 x
@@ -55,7 +55,7 @@ function draw() {
 > ### 활동 2. 공의 등속 운동 (벡터를 사용한 경우)
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="600">
+<script type="text/p5" data-height="600" data-p5-version="1.2.0">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
 
@@ -123,7 +123,7 @@ pos.add(vel);   // 위치에 속도만큼 벡터합을 해줍니다.
 > ### 활동 3. 공의 등가속운동
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="700">
+<script type="text/p5" data-height="700" data-p5-version="1.2.0">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
 let acc;  // 가속도 벡터 변수
@@ -183,7 +183,7 @@ pos.add(vel);   // 위치에 속도만큼 벡터합을 해줍니다.
 > ### 활동 4. 공의 랜덤한 가속운동
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="700">
+<script type="text/p5" data-height="700" data-p5-version="1.2.0">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
 let acc;  // 가속도 벡터 변수

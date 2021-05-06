@@ -35,7 +35,7 @@ toc_sticky: true
 > ### 활동 1. 중력의 구현
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="500">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
 let acc;  // 가속도 벡터 변수
@@ -88,7 +88,7 @@ function draw() {
 > ### 활동 2. 중력의 구현 (공의 충돌 경계 수정) 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="500">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
 let acc;  // 가속도 벡터 변수
@@ -163,7 +163,7 @@ function draw() {
 > ### 활동 3. 중력의 구현 (오차를 줄이는 방법) 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="500">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
 let acc;  // 가속도 벡터 변수
@@ -252,7 +252,7 @@ mouseIsPressed 이벤트는 마우스가 눌렸을 경우에만 참값을 반환
 > ### 활동 4. 바람과 중력의 구현 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5" data-height="500">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let pos;  // 위치 벡터 변수
 let vel;  // 속도 벡터 변수
 let acc;  // 가속도 벡터 변수

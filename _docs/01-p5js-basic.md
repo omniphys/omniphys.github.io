@@ -52,7 +52,7 @@ background() 함수가 draw() 함수 안에 있으면 반복될때마다 캔버�
 > ### 활동 1. 직접 캔버스의 크기와 배경색을 변경해봅시다.
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 function setup() {
   createCanvas(100, 100);
 }
@@ -78,7 +78,7 @@ function draw() {
 > ### 활동 2. 캔버스에 타원과 사각형을 그려봅시다.
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 function setup() {
   createCanvas(100, 100);
 }
@@ -102,7 +102,7 @@ function draw() {
 > ### 활동 3. 캔버스에 눈사람을 그려봅시다.
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
-<script type="text/p5">
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
 function setup() {
   createCanvas(100, 100);
 }

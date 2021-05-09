@@ -25,7 +25,7 @@ docs:
         url: /gravity/
       - title: "입자계 물리"
         url: /particles/
-      - title: "충돌"
+      - title: "충돌의 물리학"
         url: /collision/
       - title: "베를레 물리엔진"
         url: /verlet/

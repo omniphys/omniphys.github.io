@@ -315,7 +315,7 @@ for (let i = 0; i < planets.length; i++) {
     for (let j = 0; j < planets.length; j++) {
       // 자기 자신을 끌어당기는 경우는 제외하기 위해서 if 조건문을 사용
       if (i != j) {
-        planets[j].attract(planets[i]);
+        planets[i].attract(planets[j]);
       }
     }
   }
@@ -385,7 +385,7 @@ function draw() {
   for (let i = 0; i < planets.length; i++) {
     for (let j = 0; j < planets.length; j++) {
       if (i != j) {
-        planets[j].attract(planets[i]);
+        planets[i].attract(planets[j]);
       }
     }
     planets[i].update();

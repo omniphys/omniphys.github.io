@@ -45,5 +45,337 @@ toc_sticky: trueß
 
 그럼 지난 4차시의 만유인력 구현 코드를 약간 수정하여 공의 충돌감지 코드를 작성해보겠습니디.
 
+> ### 활동 1. 공의 충돌 감지하기 
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
+let balls = [];
+
+class Ball{
+  constructor(x, y, m) {
+    this.pos = createVector(x, y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector(0, 0);
+    this.m = m;
+    this.r = this.m * 5;
+    this.e = 1;
+    this.isColliding = false;
+  }
+  
+  collisionDetection(other) {
+    let distanceVec = p5.Vector.sub(other.pos, this.pos);
+    let distance = distanceVec.mag();
+    let sumRadius = this.r + other.r;
+    
+    if (distance < sumRadius) {
+      this.isColliding = true;
+      other.isColliding = true; 
+    }
+  }
+  
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.m);
+    this.acc.add(f);
+  }
+  
+  edge() {
+    if (this.pos.x > width - this.r) {
+      this.pos.x = width - this.r;
+      this.vel.x *= -1;
+    } else if (this.pos.x < this.r) {
+      this.pos.x = this.r;
+      this.vel.x *= -1;
+    } else if (this.pos.y > height - this.r) {
+      this.pos.y = height - this.r;
+      this.vel.y *= -1;
+    } else if (this.pos.y < this.r) {
+      this.pos.y = this.r;
+      this.vel.y *= -1;
+    }
+  }
+  
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
+  }
+  
+  show() {
+    if (this.isColliding) {
+      fill(255,0,0,100);
+    } else {
+      fill(200);
+    }
+    ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+    
+  }
+}
+
+function setup() {
+  createCanvas(100, 100);
+  for (let i=0; i < 5; i++) {
+    balls[i] = new Ball(random(width), random(height), random(1,2));
+  }
+}
+
+function draw() {
+  background(220);
+  let gravity = createVector(0, 0.2);
+  
+  for (let i = 0; i < balls.length; i++) {
+    balls[i].isColliding = false;
+  }
+  
+  for (let i = 0; i < balls.length; i++) {
+    for (let j = i+1; j < balls.length; j++) {
+      
+        balls[i].collisionDetection(balls[j]);
+      
+    }
+    //balls[i].applyForce(gravity);
+    balls[i].edge();
+    balls[i].update();
+    balls[i].show();
+  }
+}
+</script>
+
+> ### 활동 2. 공의 충돌 구현하기 (운동량 보존과 운동에너지 보존을 활용) 
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
+let balls = [];
+const e = 1;
+
+class Ball{
+  constructor(x, y, m) {
+    this.pos = createVector(x, y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector(0, 0);
+    this.m = m;
+    this.r = this.m * 5;
+    this.isColliding = false;
+  }
+  
+  collisionDetection(other) {
+    let displacement = p5.Vector.sub(other.pos, this.pos);
+    let distance = displacement.mag();
+    let sumRadius = this.r + other.r;
+    
+    if (distance < sumRadius) {
+      this.isColliding = true;
+      other.isColliding = true;
+            
+      let m1 = this.m;
+      let m2 = other.m;
+      let u1 = this.vel;
+      let u2 = other.vel
+      
+      let v1_x = ((e + 1) * m2 * u2.x + u1.x * (m1 - e * m2))/(m1 + m2);
+      let v1_y = ((e + 1) * m2 * u2.y + u1.y * (m1 - e * m2))/(m1 + m2);
+      let v2_x = ((e + 1) * m1 * u1.x + u2.x * (m2 - e * m1))/(m1 + m2);
+      let v2_y = ((e + 1) * m1 * u1.y + u2.y * (m2 - e * m1))/(m1 + m2);
+      
+      this.vel = createVector(v1_x,v1_y);
+      other.vel = createVector(v2_x,v2_y);
+       
+    }
+  }
+  
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.m);
+    this.acc.add(f);
+  }
+  
+  edge() {
+    if (this.pos.x > width - this.r) {
+      this.pos.x = width - this.r;
+      this.vel.x *= -1;
+    } else if (this.pos.x < this.r) {
+      this.pos.x = this.r;
+      this.vel.x *= -1;
+    } else if (this.pos.y > height - this.r) {
+      this.pos.y = height - this.r;
+      this.vel.y *= -1;
+    } else if (this.pos.y < this.r) {
+      this.pos.y = this.r;
+      this.vel.y *= -1;
+    }
+  }
+  
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
+  }
+  
+  show() {
+    if (this.isColliding) {
+      fill(255,0,0,100);
+    } else {
+      fill(200);
+    }
+    ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+    
+  }
+}
+
+function setup() {
+  createCanvas(100, 100);
+  for (let i=0; i < 3; i++) {
+    balls[i] = new Ball(random(width), random(height), random(1,2));
+  }
+}
+
+function draw() {
+  background(220);
+  let gravity = createVector(0, 0.2);
+  
+  for (let i = 0; i < balls.length; i++) {
+    balls[i].isColliding = false;
+  }
+  
+  for (let i = 0; i < balls.length; i++) {
+    for (let j = i+1; j < balls.length; j++) {
+      
+        balls[i].collisionDetection(balls[j]);
+      
+    }
+    //balls[i].applyForce(gravity);
+    balls[i].edge();
+    balls[i].update();
+    balls[i].show();
+    
+  }
+}
+</script>
+
+> ### 활동 3. 공의 충돌 개선하여 구현하기 (크기를 고려) 
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="500" data-p5-version="1.2.0">
+let balls = [];
+const e = 1;
+
+class Ball{
+  constructor(x, y, m) {
+    this.pos = createVector(x, y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector(0, 0);
+    this.m = m;
+    this.r = this.m * 5;
+    this.isColliding = false;
+  }
+  
+  collisionDetection(other) {
+    let displacement = p5.Vector.sub(other.pos, this.pos);
+    let distance = displacement.mag();
+    let sumRadius = this.r + other.r;
+    
+    if (distance < sumRadius) {
+      this.isColliding = true;
+      other.isColliding = true;
+      
+      // 위치 보정
+      let distanceCorrection = (sumRadius - distance) / 2.0;
+      let d = displacement.copy();
+      let correctionVector = d.normalize().mult(distanceCorrection);
+      other.pos.add(correctionVector);
+      this.pos.sub(correctionVector);
+
+      let n = displacement.copy();
+      let normal = n.normalize();
+            
+      let m1 = this.m;
+      let m2 = other.m;
+      
+      let u1 = this.vel.x * normal.x + this.vel.y * normal.y;
+      let u2 = other.vel.x * normal.x + other.vel.y * normal.y;
+
+      let v1 = ((e + 1) * m2 * u2 + u1 * (m1 - e * m2))/(m1 + m2);
+      let v2 = ((e + 1) * m1 * u1 + u2 * (m2 - e * m1))/(m1 + m2);
+        
+      let normalVel1 = p5.Vector.mult(normal,u1);
+      let normalVel2 = p5.Vector.mult(normal,u2);
+      
+      let tangentVel1 = p5.Vector.sub(this.vel, normalVel1);
+      let tangentVel2 = p5.Vector.sub(other.vel, normalVel2);
+      
+      normalVel1.normalize().mult(v1);
+      normalVel2.normalize().mult(v2);
+      
+      this.vel = p5.Vector.add(normalVel1, tangentVel1);
+      other.vel = p5.Vector.add(normalVel2, tangentVel2);
+       
+    }
+  }
+  
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.m);
+    this.acc.add(f);
+  }
+  
+  edge() {
+    if (this.pos.x > width - this.r) {
+      this.pos.x = width - this.r;
+      this.vel.x *= -1;
+    } else if (this.pos.x < this.r) {
+      this.pos.x = this.r;
+      this.vel.x *= -1;
+    } else if (this.pos.y > height - this.r) {
+      this.pos.y = height - this.r;
+      this.vel.y *= -1;
+    } else if (this.pos.y < this.r) {
+      this.pos.y = this.r;
+      this.vel.y *= -1;
+    }
+  }
+  
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
+  }
+  
+  show() {
+    if (this.isColliding) {
+      fill(255,0,0,100);
+    } else {
+      fill(200);
+    }
+    ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+    
+  }
+}
+
+function setup() {
+  createCanvas(100, 100);
+  for (let i=0; i < 5; i++) {
+    balls[i] = new Ball(random(width), random(height), random(1,2));
+  }
+}
+
+function draw() {
+  background(220);
+  let gravity = createVector(0, 0.2);
+  
+  for (let i = 0; i < balls.length; i++) {
+    balls[i].isColliding = false;
+  }
+  
+  for (let i = 0; i < balls.length; i++) {
+    for (let j = i+1; j < balls.length; j++) {
+      
+        balls[i].collisionDetection(balls[j]);
+      
+    }
+    //balls[i].applyForce(gravity);
+    balls[i].edge();
+    balls[i].update();
+    balls[i].show();
+    
+  }
+}
+</script>
 
 

@@ -43,7 +43,38 @@ toc_sticky: trueß
 }
 ```
 
-그럼 지난 4차시의 만유인력 구현 코드를 약간 수정하여 공의 충돌감지 코드를 작성해보겠습니디.
+그럼 지난 4차시의 만유인력 활동 코드를 약간 수정하여 Ball 클래스를 만들고 여러 ball 객체를 만들어 공이 충돌 조건을 만족하였을 때 공의 색이 변하게 구현해 보도록 하겠습니다.
+
+이 때 공이 여러개 있을 때 각 공끼리 충돌하는 조건을 살펴봐야 하기 때문에 반복문을 사용합니다. 그러나 앞의 만유인력을 계산할때와는 다르게 한번 체크한 공끼리는 다시 체크할 필요가 없기 때문에 만약 공이 5개 있다면 아래와 같이 반복하면 됩니다.
+
+```javascript
+balls[0].collisionDetection(balls[1]);
+balls[0].collisionDetection(balls[2]);
+balls[0].collisionDetection(balls[3]);
+balls[0].collisionDetection(balls[4]);
+
+balls[1].collisionDetection(balls[2]);
+balls[1].collisionDetection(balls[3]);
+balls[1].collisionDetection(balls[4]);
+
+balls[2].collisionDetection(balls[3]);
+balls[2].collisionDetection(balls[4]);
+
+balls[3].collisionDetection(balls[4]);
+```
+이를 반복문으로 표현하면 다음과 같습니다.
+
+```javascript
+for (let i = 0; i < 공의 갯수; i++) {
+  // 만유인력에서 모든 조합의 경우를 생각하는 것과 다르게 
+  // 앞서 선택한 조합은 빼기 위해서 j = i + 1 부터 시작 
+  for (let j = i + 1; j < 공의 갯수; j++) {
+      // 공과 공 사이의 충돌 여부를 체크
+    balls[i].collisionDetection(balls[j]);
+  }
+}
+```
+자 그럼 활동 1을 직접 실행해보고 코드를 살펴봅시다.
 
 > ### 활동 1. 공의 충돌 감지하기 
 
@@ -53,13 +84,11 @@ let balls = [];
 
 class Ball{
   constructor(x, y, m) {
-    this.pos = createVector(x, y);
-    this.vel = p5.Vector.random2D();
-    this.acc = createVector(0, 0);
-    this.m = m;
-    this.r = this.m * 5;
-    this.e = 1;
-    this.isColliding = false;
+    this.pos = createVector(x, y); // 공의 위치 설정
+    this.vel = p5.Vector.random2D(); // 공의 처음 속도는 랜덤하게 설정
+    this.m = m; // 공의 질량
+    this.r = this.m * 5; // 공의 크기는 공의 질량에 비례하게 설정
+    this.isColliding = false; // 공의 충돌 여부를 설정
   }
   
   collisionDetection(other) {
@@ -68,16 +97,11 @@ class Ball{
     let sumRadius = this.r + other.r;
     
     if (distance < sumRadius) {
-      this.isColliding = true;
+      this.isColliding = true;  
       other.isColliding = true; 
     }
   }
-  
-  applyForce(force) {
-    let f = p5.Vector.div(force, this.m);
-    this.acc.add(f);
-  }
-  
+  // 벽에 충돌하면 반대로 튀어나오도록 설정
   edge() {
     if (this.pos.x > width - this.r) {
       this.pos.x = width - this.r;
@@ -95,24 +119,23 @@ class Ball{
   }
   
   update() {
-    this.vel.add(this.acc);
     this.pos.add(this.vel);
-    this.acc.set(0, 0);
   }
   
   show() {
+    // 충돌 조건이면 붉은색으로 칠하기
     if (this.isColliding) {
       fill(255,0,0,100);
     } else {
       fill(200);
     }
     ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
-    
   }
 }
 
 function setup() {
   createCanvas(100, 100);
+  // Ball클래스를 이용해 ball 객체를 5개 생성해 balls[] 배열에 저장함
   for (let i=0; i < 5; i++) {
     balls[i] = new Ball(random(width), random(height), random(1,2));
   }
@@ -120,25 +143,45 @@ function setup() {
 
 function draw() {
   background(220);
-  let gravity = createVector(0, 0.2);
   
+  // 매순간 충돌 조건 초기화
   for (let i = 0; i < balls.length; i++) {
     balls[i].isColliding = false;
   }
   
+  // 순서대로 반복하여 각 공별로 충돌하는지 여부를 확인
   for (let i = 0; i < balls.length; i++) {
-    for (let j = i+1; j < balls.length; j++) {
-      
-        balls[i].collisionDetection(balls[j]);
-      
+    // 만유인력에서 모든 조합의 경우를 생각하는 것과 다르게 
+    // 앞서 선택한 조합은 빼기 위해서 j = i + 1 부터 시작 
+    for (let j = i + 1; j < balls.length; j++) {
+      // 공과 공 사이의 충돌 여부를 체크
+      balls[i].collisionDetection(balls[j]);
     }
-    //balls[i].applyForce(gravity);
-    balls[i].edge();
-    balls[i].update();
-    balls[i].show();
+    balls[i].edge();  // 벽 경계 확인
+    balls[i].update();  // 속도를 위치에 반영
+    balls[i].show();  // 공을 캔버스에 그림
   }
 }
 </script>
+
+공이 충돌 조건이 잘 구현되었나요? 공의 갯수나 색등을 변화시키면서 코드를 다시 실행해 보세요.
+
+
+## 2. 충돌 후의 속도 구하기
+
+앞에서 충돌 조건에 대해서 알아보았으니 다음 과정으로 충돌 후에 속도를 어떻게 구현할 수 있을 지 살펴보도록 하겠습니다. 여러분 충돌하면 생각하는 물리학 개념이 무엇이 있나요?
+
+예 맞습니다. 바로 운동량 보존입니다. 물론 F = ma 로 충돌을 구현할 수도 있지만 운동량과 운동에너지를 활용하면 충돌을 물리학적으로 좀 더 쉽게 구현할 수 있습니다.
+
+자 그럼 우리가 물리학 시간에 배운 두 물체가 충돌할 때의 운동량 보존법칙과 운동에너지 보존을 다시 살펴봅시다.
+
+!["운동량 보존"](/assets/images/momentum.png){: .align-center width="50%" height="50%"}
+
+> 운동량 보존 법칙 : $m_1v_1 + m_2v_2 = m_1V_1 + m_2V_2$ 
+>
+> 충돌시 운동에너지 보존 : $\frac{1}{2}m_1v_1^2 + \frac{1}{2}m_2v_2^2  \geqq  \frac{1}{2}m_1V_1^2 + \frac{1}{2}m_2V_2^2$
+>
+> 운동에너지는 완전탄성 충돌일 경우에만 보존되며, 완전 탄성 충돌이 아닌 경우 에너지가 소리나 열로 전환되어 충돌 후의 운동에너지의 합이 충돌 전 운동에너지의 합보다 작게 됩니다.
 
 > ### 활동 2. 공의 충돌 구현하기 (운동량 보존과 운동에너지 보존을 활용) 
 

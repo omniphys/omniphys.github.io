@@ -219,13 +219,13 @@ function draw() {
 
 !["운동량 보존"](/assets/images/COR.jpg){: .align-center width="50%" height="50%"}
 
-이 반발계수 충돌시에 질량에 의한 효과까지 적용하기 위해서 운동량 보존 공식에 다시 대입하여 충돌 후의 물체의 속도($V_1$, $V_2$)로 정리하면 다음과 같다.
+이 반발계수 충돌시에 질량에 의한 효과까지 적용하기 위해서 운동량 보존 공식에 다시 대입하여 충돌 후의 물체의 속도($V_1$, $V_2$)로 정리하면 다음과 같습니다.
 
 > $m_1v_1 + m_2v_2 = m_1V_1 + m_2V_2$ ..... (1) 운동량 보존
 >
-> $e = \frac{V_2 - V_1}{v_1 - v_2}$ ..... 반발계수
+> $e = \frac{V_2 - V_1}{v_1 - v_2}$ 
 >
-> $e(v_1-v_2) + V_1 = V_2$ ..... (2) 
+> $e(v_1-v_2) + V_1 = V_2$ ..... (2) 반발계수 
 >
 > 물체1의 충돌 후 속도 $V_1$으로 정리하기 위해서 (1)식 $V_2$에 반발계수 (2)식을 대입하면 물체2의 충돌후 속도 $V_2$식이 사라진 $V_1$이 나오게 된다. 
 > 
@@ -235,16 +235,22 @@ function draw() {
 >
 > $V_1(m_1 + m_2) = m_1v_1 + m_2v_2 -em_2v_1 + em_2v_2$
 >
-> $V_1(m_1 + m_2) = m_2v_2(1+e) + v_1(m_1-em_2)$ 
+> $V_1(m_1 + m_2) = (e + 1)m_2v_2 + v_1(m_1-em_2)$ 
 >
-> $V_1 = \frac{m_2v_2(1+e) + v_1(m_1-em_2)}{(m_1 + m_2)}$ 
+> $V_1 = \frac{(e+1)m_2v_2 + v_1(m_1-em_2)}{(m_1 + m_2)}$ .....(3) 물체1의 충돌후 속도
+> 
+> 마찬가지로 $V_2$를 구하면 다음과 같다.
+>
+> $V_2 = \frac{(e+1)m_1v_1 + v_2(m_2-em_1)}{(m_1 + m_2)}$ .....(4) 물체2의 충돌후 속도
+
+위에서 유도한 (3),(4) 식을 이용하여 충돌 후 물체의 속도를 구할 수 있습니다. 그럼 위의 식을 코드로 적용해 봅시다.
 
 > ### 활동 2. 공의 충돌 구현하기 (운동량 보존과 운동에너지 보존을 활용) 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let balls = [];
-const e = 1;
+const e = 1;  // 완전탄성충돌
 
 class Ball{
   constructor(x, y, m) {
@@ -265,15 +271,16 @@ class Ball{
       this.isColliding = true;
       other.isColliding = true;
             
-      let m1 = this.m;
-      let m2 = other.m;
-      let u1 = this.vel;
-      let u2 = other.vel
+      let m1 = this.m;  // 물체 1의 질량
+      let m2 = other.m;  // 물체 2의 질량
+      let u1 = this.vel;  // 물체 1의 충돌 전 속도
+      let u2 = other.vel  // 물체 2의 충돌 전 속도 
       
-      let v1_x = ((e + 1) * m2 * u2.x + u1.x * (m1 - e * m2))/(m1 + m2);
-      let v1_y = ((e + 1) * m2 * u2.y + u1.y * (m1 - e * m2))/(m1 + m2);
-      let v2_x = ((e + 1) * m1 * u1.x + u2.x * (m2 - e * m1))/(m1 + m2);
-      let v2_y = ((e + 1) * m1 * u1.y + u2.y * (m2 - e * m1))/(m1 + m2);
+      // 충돌 후 속도 공식 사용
+      let v1_x = ((e + 1) * m2 * u2.x + u1.x * (m1 - e * m2))/(m1 + m2);  //물체 1의 충돌후 x방향 속도
+      let v1_y = ((e + 1) * m2 * u2.y + u1.y * (m1 - e * m2))/(m1 + m2);  //물체 1의 충돌후 y방향 속도
+      let v2_x = ((e + 1) * m1 * u1.x + u2.x * (m2 - e * m1))/(m1 + m2);  //물체 2의 충돌후 x방향 속도
+      let v2_y = ((e + 1) * m1 * u1.y + u2.y * (m2 - e * m1))/(m1 + m2);  //물체 2의 충돌후 y방향 속도
       
       this.vel = createVector(v1_x,v1_y);
       other.vel = createVector(v2_x,v2_y);

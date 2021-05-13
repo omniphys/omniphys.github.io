@@ -243,7 +243,12 @@ function draw() {
 >
 > $V_2 = \frac{(e+1)m_1v_1 + v_2(m_2-em_1)}{(m_1 + m_2)}$ .....(4) 물체2의 충돌후 속도
 
-위에서 유도한 (3),(4) 식을 이용하여 충돌 후 물체의 속도를 구할 수 있습니다. 그럼 위의 식을 코드로 적용해보면 다음과 같습니다.
+위에서 유도한 (3),(4) 식을 통해 운동량 보존과 운동에너지 보존이 적용된 충돌 후 물체의 속도를 구할 수 있습니다. 다음 충돌 속도 공식은 1차원적으로만 적용되는 것이기 때문에 각 x, y 방향 성분 별로 적용할 수 있습니다. 그래서 아래 공식을 코드로 적용할 때는 x,y 방향으로 나누어 적용해야 합니다.
+
+> $V_1 = \frac{(e+1)m_2v_2 + v_1(m_1-em_2)}{(m_1 + m_2)}$ 
+>
+> $V_2 = \frac{(e+1)m_1v_1 + v_2(m_2-em_1)}{(m_1 + m_2)}$ 
+
 
 ```javascript
 let m1 = this.m;  // 물체 1의 질량
@@ -369,9 +374,13 @@ function draw() {
 }
 </script>
 
-활동 2의 코드를 실행해 본 결과가 어떤가요? 충돌 효과가 잘 나타나는 것을 볼 수 있습니다. 그런데 계속 결과를 보고 있으면 약간 이상하게 충돌하는 경우를 볼 수 있습니다. 어떤 부분일까요?
+활동 2의 코드를 실행해 본 결과가 어떤가요? 충돌 효과가 나타나기는 하는데 몇가지 이상한 부분이 있습니다. 
 
-바로 스쳐지나가듯이 비껴 맞을 때 입니다. 현실에서는 비껴 맞은 두 공의 운동과 활동 2 실행결과와는 약간 다르게 보입니다. 활동 2의 결과에서는 비껴 맞았음에도 불구하고 반대 방향으로 튕겨지는 것을 볼 수 있습니다. 왜 그럴까요?
+첫번째로 공의 갯수를 늘려보겠습니다. 공의 갯수가 늘어나면 공이 생성될 때 충돌하면서 생겨나는 공들이 생깁니다. 공의 영역이 겹친채로 되는데 공의 충돌 위치를 보정해주어야 하는 부분이 필요합니다. 
+
+두번째로 충돌 과정을 계속 보고 있으면 약간 이상하게 충돌하는 경우를 볼 수 있습니다. 어떤 부분일까요? 바로 스쳐지나가듯이 비껴 맞을 때 입니다. 
+
+현실에서는 비껴 맞은 두 공의 운동과 활동 2 실행결과와는 약간 다르게 보입니다. 활동 2의 결과에서는 비껴 맞았음에도 불구하고 반대 방향으로 튕겨지는 것을 볼 수 있습니다. 왜 그럴까요?
 
 그 이유는 바로 공의 크기가 있어서 공이 충돌할 때 공의 운동 방향이 충돌시 주고받는 힘의 방향과 일치 하지 않습니다. 아래 그림처럼 대부분의 충돌은 충돌시 주고 받는 힘의 방향(두 공의 중심을 잇는 방향)과 충돌 속도($u_1$, $u_2$)의 방향이 어긋나게 됩니다.
 
@@ -379,21 +388,33 @@ function draw() {
 
 활동 2에서는 공의 크기와 상관없이 충돌이 일어나면 공의 운동 방향과 두 공의 중심을 잇는 선이 일치한다고 가정하고 구현된 것입니다. 이런 경우는 입자의 크기가 아주 작을때만 적용할 수 있는 것입니다.
 
-그러면 공이 충돌할 때 크기까지 고려하려면 어떻게 해야 할까요?
-
-그 답은 바로 위의 그림에서 잘 나타나 있습니다.
+그러면 크기가 있는 공이 충돌할 때 어떻게 해야 할까요? 위의 충돌 그림에 바로 답이 있습니다. 그림을 유심히 살펴보면서 아래 과정을 읽어보세요. 
 
 > 1. 충돌을 감지한다.
 >
-> 2. 충돌 전 속도를 두 공의 중심방향을 잇는 방향 성분(normal)과 두 공의 
+> 2. 충돌 바로 직전 위치로 재조정한다.
+>
+> 3. 충돌 전 속도를 두 공의 중심을 잇는 방향 성분(normal)과 두 공의 충돌면에 평행한 (tangential) 방향 성분으로 분해한다. (이때 벡터의 내적을 활용)
+>
+> 4. 공의 중심을 잇는 방향 속도 성분(normal)끼리만 충돌 공식을 적용하여 충돌 후 속도를 구한다.
+> 
+> 5. 충돌 후 구한 속도와 처음에 구한 충돌면에 평행한 방향 성분(tangential)의 속도를 벡터합한다.
 
+추가적으로 3번 과정에서 벡터의 내적을 이용하여 벡터를 임의의 방향으로 분해하는 방법은 다음과 같습니다.
+
+> - 벡터 내적 공식 : $\vec{A} \cdot \vec{B} = \left\vert A \right\vert \left\vert B \right\vert cos(\theta) = (A_xB_x) + (A_yB_y) $
+> 
+> - 벡터 A와 길이가 1인 벡터 B를 내적하면 A벡터를 B방향으로 분해한 벡터와 크기가 같다.
+> !["벡터의 내적"](/assets/images/dotproduct.png)
+
+위의 과정을 활동 3을 통해 구현해 보도록 합시다.
 
 > ### 활동 3. 공의 충돌 개선하여 구현하기 (크기를 고려) 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="500" data-p5-version="1.2.0">
 let balls = [];
-const e = 1;
+const e = 1;  // 반발계수
 
 class Ball{
   constructor(x, y, m) {
@@ -409,42 +430,49 @@ class Ball{
     let displacement = p5.Vector.sub(other.pos, this.pos);
     let distance = displacement.mag();
     let sumRadius = this.r + other.r;
-    
+    // 1. 충돌을 감지
     if (distance < sumRadius) {
       this.isColliding = true;
       other.isColliding = true;
       
-      // 위치 보정
+      // 2. 충돌하는 공의 위치를 보정
       let distanceCorrection = (sumRadius - distance) / 2.0;
       let d = displacement.copy();
       let correctionVector = d.normalize().mult(distanceCorrection);
       other.pos.add(correctionVector);
       this.pos.sub(correctionVector);
 
+      // 3. 중심을 잇는 방향 벡터 구하기
+      // 속도 벡터를 중심을 잇는 방향(normal)으로 분해하기 위해서 그 방향의 단위벡터 만들기
       let n = displacement.copy();
       let normal = n.normalize();
-            
-      let m1 = this.m;
-      let m2 = other.m;
-      
+
+      // 속도 벡터와 중심을 잇는 방향 단위 벡터를 내적하여 충돌 전 중심을 잇는 방향(normal)속도 크기 계산       
       let u1 = this.vel.x * normal.x + this.vel.y * normal.y;
       let u2 = other.vel.x * normal.x + other.vel.y * normal.y;
 
-      let v1 = ((e + 1) * m2 * u2 + u1 * (m1 - e * m2))/(m1 + m2);
-      let v2 = ((e + 1) * m1 * u1 + u2 * (m2 - e * m1))/(m1 + m2);
-        
+      // 중심을 잇는 방향(normal)의 충돌 전 속도 벡터 생성  
       let normalVel1 = p5.Vector.mult(normal,u1);
       let normalVel2 = p5.Vector.mult(normal,u2);
       
+      // 충돌면에 평행한 방향(tangential)의 충돌 전 속도 벡터 생성
       let tangentVel1 = p5.Vector.sub(this.vel, normalVel1);
       let tangentVel2 = p5.Vector.sub(other.vel, normalVel2);
+
+      let m1 = this.m;
+      let m2 = other.m;
+
+      // 4. 충돌 공식을 이용하여 충돌 방향의 충돌후 속도 계산
+      let v1 = ((e + 1) * m2 * u2 + u1 * (m1 - e * m2))/(m1 + m2);
+      let v2 = ((e + 1) * m1 * u1 + u2 * (m2 - e * m1))/(m1 + m2);
       
+      // 중심을 잇는 방향(normal)의 충돌 후 속도 벡터로 변환
       normalVel1.normalize().mult(v1);
       normalVel2.normalize().mult(v2);
       
+      // 5. 충돌 후 중심을 잇는 방향(normal) 속도와 충돌면에 평행한 방향(tangeltial) 속도를 벡터합하여 충돌 후의 속도를 계산 
       this.vel = p5.Vector.add(normalVel1, tangentVel1);
       other.vel = p5.Vector.add(normalVel2, tangentVel2);
-       
     }
   }
   
@@ -482,7 +510,6 @@ class Ball{
       fill(200);
     }
     ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
-    
   }
 }
 
@@ -495,7 +522,6 @@ function setup() {
 
 function draw() {
   background(220);
-  let gravity = createVector(0, 0.2);
   
   for (let i = 0; i < balls.length; i++) {
     balls[i].isColliding = false;
@@ -503,17 +529,28 @@ function draw() {
   
   for (let i = 0; i < balls.length; i++) {
     for (let j = i+1; j < balls.length; j++) {
-      
         balls[i].collisionDetection(balls[j]);
-      
     }
-    //balls[i].applyForce(gravity);
     balls[i].edge();
     balls[i].update();
     balls[i].show();
-    
   }
 }
 </script>
+
+활동 3의 실행해보면 활동 2보다 더 정확한 충돌이 일어나는 것을 확인할 수 있습니다. 우리는 운동량 보존과 운동에너지 개념을 이용하여 가상세계에서 물체의 충돌을 성공적으로 구현할 수 있었습니다. 
+
+> 오늘의 과제
+>
+> 그럼 지금까지 배운 중력과 충돌을 동시에 적용해 보도록 하겠습니다. 우리가 구현한 물리 엔진이 얼마나 잘 작동하는지 확인해 봅시다. 아래 코드를 draw() 함수 안에 중력을 설정하고 각 공에 적용해서 실행해 봅시다.
+
+```javascript
+function draw(){
+  let gravity = createVector(0, 0.2);
+  ...
+  ...
+  balls[i].applyForce(gravity);
+}
+```
 
 

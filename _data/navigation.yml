@@ -7,7 +7,7 @@ main:
   #- title: "머신러닝"
   #  url: 
   # - title: "Sample Collections"
-  #   url: /collection-archive/
+  #   url: /collection-archive/s
   # - title: "Sitemap"
   #   url: /sitemap/
   
@@ -27,6 +27,6 @@ docs:
         url: /particles/
       - title: "충돌의 물리학"
         url: /collision/
-      - title: "베를레 물리엔진"
-        url: /verlet/
+      - title: "빗면에서의 운동"
+        url: /slope/
   

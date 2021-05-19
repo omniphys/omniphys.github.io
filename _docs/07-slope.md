@@ -1,7 +1,7 @@
 ---
 title: "빗면에서의 운동"
 permalink: /slope/
-last_modified_at: 2021-05-08
+last_modified_at: 2021-05-15
 toc: true
 toc_sticky: trueß
 ---
@@ -14,6 +14,8 @@ toc_sticky: trueß
 
 
 ## 2. 빗면에서 공의 구름 운동 
+
+!["빗면에서 구름"](/assets/images/rolling_down.png){: .align-center width="70%" height="70%"}
 
 ## 3. 로또 게임 만들기
 

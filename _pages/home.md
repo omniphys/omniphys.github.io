@@ -18,7 +18,7 @@ feature_row:
   - image_path: 
     alt: "Game & Simulation"
     title: "게임 및 시뮬레이션"
-    excerpt: "물리 엔진에 기반한 시뮬레이션 실험과 실감나는 게임을 만들어 봅시다. 또한 강화학습을 적용한 게임을 만들어 봅시다."
+    excerpt: "물리 엔진에 기반한 시뮬레이션 실험과 실감나는 게임을 만들어 봅시다."
     url: ""
     btn_class: "btn--primary"
     btn_label: "준비중"      

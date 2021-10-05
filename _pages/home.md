@@ -5,7 +5,7 @@ hidden: true
 header:
   overlay_color: "#5e616c"
   overlay_image: /assets/images/home_banner.jpg
-excerpt: >
+excerpt: 
   <br /><br />
 feature_row:
   - image_path: 
@@ -17,18 +17,18 @@ feature_row:
     btn_label: "학습 시작"
   - image_path: 
     alt: "Game & Simulation"
-    title: "게임 및 시뮬레이션"
+    title: "물리 게임 및 시뮬레이션 제작"
     excerpt: "물리 엔진에 기반한 시뮬레이션 실험과 실감나는 게임을 만들어 봅시다."
-    url: ""
+    url: "/games/game-basic/"
     btn_class: "btn--primary"
-    btn_label: "준비중"      
+    btn_label: "학습 시작"      
   - image_path: 
     alt: "Machine Learning"
-    title: "머신러닝"
-    excerpt: "ML5.js 라이브러리를 이용하여 머신러닝의 원리를 배워봅시다."
+    title: "인공지능 기술 학습"
+    excerpt: "기계학습, 강화학습, 딥러닝 기술의 원리를 실습을 통해 배워봅시다."
     url: ""
     btn_class: "btn--primary"
-    btn_label: "준비중"
+    btn_label: "학습 시작"
 
 ---
 

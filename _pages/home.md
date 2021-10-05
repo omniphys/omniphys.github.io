@@ -24,11 +24,11 @@ feature_row:
     btn_label: "학습 시작"      
   - image_path: 
     alt: "Machine Learning"
-    title: "인공지능 기술 학습"
-    excerpt: "기계학습, 강화학습, 딥러닝 기술의 원리를 실습을 통해 배워봅시다."
+    title: "물리와 머신러닝"
+    excerpt: "물리학에 적용할 수 있는 기계학습, 강화학습, 딥러닝 기술에 대해 배워봅시다."
     url: ""
     btn_class: "btn--primary"
-    btn_label: "학습 시작"
+    btn_label: "준비중"
 
 ---
 

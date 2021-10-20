@@ -17,7 +17,7 @@ feature_row:
     btn_label: "학습 시작"
   - image_path: 
     alt: "Game & Simulation"
-    title: "물리 게임 및 시뮬레이션 제작"
+    title: "물리 게임, 시뮬레이션 제작"
     excerpt: "물리 엔진에 기반한 과학 시뮬레이션 실험과 재미있는 게임을 만들어 봅시다."
     url: "/games/game-basic/"
     btn_class: "btn--primary"

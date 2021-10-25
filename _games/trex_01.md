@@ -1,6 +1,6 @@
 ---
 title: "공룡 게임 만들기 1 - 점프 기능"
-permalink: /games/game-basic/
+permalink: /games/trex_01/
 excerpt: "p5.js로 게임을 만들어 봅시다"
 last_modified_at: 2021-10-20
 toc: true

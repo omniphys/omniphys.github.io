@@ -141,9 +141,9 @@ function draw() {
     cacti.push(new Obstacle(10,20));    // 폭 10, 높이 20의 장애물 객체를 생성하여 장애물 객체 배열에 추가함.
   }
   
-  for (let c of cacti) {
-    c.move();
-    c.show();
+  for (let i = cacti.length - 1; i >= 0; i--) {
+    cacti[i].move();
+    cacti[i].show();
   }
   
   tRex.applyForce(gravity);
@@ -167,15 +167,13 @@ function keyPressed() {
 
 [* 문법 참고](https://p5js.org/ko/reference/#/p5/rect "ref")
 
-그리고 배열.push() 는 배열안에 새로운 객체를 저장하는 것이고, for ... of 문은 배열안의 값을 순서대로 반복하여 꺼내서 실행합니다. 아래 문법을 참고하세요.
+그리고 배열.push() 는 배열안에 새로운 객체를 저장하는 것이고, for문을 이용하여 배열안의 값을 순서대로 반복하여 꺼내서 실행합니다.
 
-[* 문법 참고](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/for...of "ref")
-
-간단하게 장애물의 속도와 크기, 등장 빈도수를 조절해서 장애물이 다양한 모습을 나타낼 수 있도록 만들어 보세요.
+이제 여러분이 직접 간단하게 장애물의 속도와 크기, 등장 빈도수를 조절해서 장애물이 다양한 모습을 나타낼 수 있도록 만들어 보세요.
 
 자! 오늘은 이렇게 공룡의 여행을 방해하는 선인장 장애물을 만들어 보았습니다.
 
-위의 제시한 코드가 이해가 되었으면 이제 여러분이 직접 아래 과제를 해결해 봅시다.
+위의 제시한 코드가 이해가 되었으면 아래 과제를 해결해 봅시다.
 
 > 오늘의 과제 
 > 

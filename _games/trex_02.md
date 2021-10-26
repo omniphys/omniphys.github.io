@@ -2,7 +2,7 @@
 title: "공룡 게임 만들기 2 - 장애물 이동"
 permalink: /games/trex_02/
 excerpt: "p5.js로 게임을 만들어 봅시다"
-last_modified_at: 2021-10-20
+last_modified_at: 2021-10-25
 toc: true
 toc_sticky: true
 ---

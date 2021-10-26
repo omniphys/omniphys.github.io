@@ -71,6 +71,7 @@ function draw() {
 
 의사 코드를 통해 전체적인 충돌 감지 과정을 이해할 수 있었나요? 이제 여러분이 직접 코딩을 해가며 충돌감지 기능을 구현해 보도록 하겠습니다.
 
+> ### 활동 1. 공룡과 장애물 사이의 충돌 감지하기 
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="700" data-p5-version="1.2.0">

@@ -44,3 +44,5 @@ games:
         url: /games/trex_02/
       - title: "공룡 게임 만들기 3"
         url: /games/trex_03/
+      - title: "공룡 게임 만들기 4"
+        url: /games/trex_04/

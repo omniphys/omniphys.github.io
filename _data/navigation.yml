@@ -48,3 +48,5 @@ games:
         url: /games/trex_04/
       - title: "공룡 게임 만들기 5"
         url: /games/trex_05/
+      - title: "인공 지능 게임 만들기 1"
+        url: /games/ga_01/

@@ -1,6 +1,6 @@
 ---
 title: "유전 알고리즘과 인공신경망"
-permalink: /games/ga_01/
+permalink: /ml/intro/
 excerpt: "유전 알고리즘과 인공신경망을 이용한 게임을 만들어 보자."
 last_modified_at: 2021-11-02
 toc: true

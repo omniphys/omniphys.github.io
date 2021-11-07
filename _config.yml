@@ -98,7 +98,7 @@ author:
   avatar           : "/assets/images/bio-photo.jpg"
   bio              : "서울대학교사범대학부설고등학교"
   location         : "Seoul"
-  email            :
+  email            : "physics@snu.hs.kr"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
@@ -275,7 +275,7 @@ collections:
   games:
     output: true
     permalink: /:collection/:path/
-  pets:
+  ml:
     output: true
     permalink: /:collection/:path/
 
@@ -327,12 +327,15 @@ defaults:
       comments: false
       sidebar:
         nav: "games"
-  # _pets
+  # _ml
   - scope:
       path: ""
-      type: pets
+      type: ml
     values:
       layout: single
-      author_profile: true
-      share: true
-      comment: true
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      sidebar:
+        nav: "ml"

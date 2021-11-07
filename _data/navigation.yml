@@ -5,7 +5,7 @@ main:
   - title: "게임 & 시뮬레이션"
     url: /games/trex_01/
   - title: "머신러닝"
-    url: 
+    url: /ml/intro/
   # - title: "Sample Collections"
   #   url: /collection-archive/s
   # - title: "Sitemap"
@@ -48,5 +48,10 @@ games:
         url: /games/trex_04/
       - title: "공룡 게임 만들기 5"
         url: /games/trex_05/
-      - title: "인공 지능 게임 만들기 1"
-        url: /games/ga_01/
+ml:
+  - title: 물리와 머신러닝
+    children:
+      - title: "인공 지능 기술 소개"
+        url: /ml/intro/
+      - title: "유전 알고리즘"
+        url: /ml/ga/

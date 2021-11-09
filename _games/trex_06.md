@@ -395,3 +395,10 @@ function calculateFitness() {
 
 <a href="https://editor.p5js.org/physics-mulberry/sketches/dDMjx941H" target="_blank" class="btn btn--danger">인공 지능 공룡 게임 웹에디터 코드 실행하기</a>
 
+> 오늘의 과제 
+> 
+> [p5.js 웹에디터](https://editor.p5js.org/) 에서 아래 과제를 해결한 여러분만의 프로그램을 만들어 클래스룸 댓글에 공유를 해주세요. 
+>
+> (1) 인공지능 공룡게임에서 장애물 속도를 변화시키거나 인공 신경망 입력층 또는 은닉층을 변화시켜서 공룡이 다양한 상황에서 더 똑똑해지도록 만들어 보세요.
+>
+> (2) 더 다양한 조건에서 똑똑하게 장애물을 넘으며 진화하는 공을 유전 알고리즘과 인공신경망으로 구현한 다음 사례를 살펴보세요. [Ernest Schmidt의 스마트볼](https://www.ernst-schmidt.com/coding/5d30690dc7a6e90017a94ef6){:target="_blank"}

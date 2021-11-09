@@ -48,6 +48,8 @@ games:
         url: /games/trex_04/
       - title: "공룡 게임 만들기 5"
         url: /games/trex_05/
+      - title: "인공지능 공룡 게임"
+        url: /games/trex_06/
 ml:
   - title: 물리와 머신러닝
     children:

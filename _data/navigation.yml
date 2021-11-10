@@ -3,7 +3,7 @@ main:
   - title: "물리엔진"
     url: /p5js-basic/
   - title: "게임 & 시뮬레이션"
-    url: /games/trex_01/
+    url: /games/phys_sim/
   - title: "머신러닝"
     url: /ml/intro/
   # - title: "Sample Collections"
@@ -38,6 +38,8 @@ docs:
 games:
   - title: 물리 게임 및 시뮬레이션 만들기
     children:
+      - title: "물리 게임 & 시뮬레이션"
+        url: /games/phys_sim/
       - title: "공룡 게임 만들기 1"
         url: /games/trex_01/
       - title: "공룡 게임 만들기 2"

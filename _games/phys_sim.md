@@ -28,7 +28,7 @@ feature_row:
     alt: "우주선 도킹 게임"
     title: "우주선 도킹 게임"
     excerpt: "우주 공간에서 뉴튼의 운동법칙을 적용해서 우주선을 우주정거장에 성공적으로 도킹해보세요!"
-    url: "https://preview.p5js.org/omniphysics/present/Z1T9KHR--"
+    url: "https://preview.p5js.org/omniphysics/present/oElhxpJO4"
     btn_label: "실행하기"
     btn_class: "btn--info"
   - image_path: /assets/images/phys_sim_05.png

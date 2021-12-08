@@ -115,7 +115,7 @@ force2.setMag(strength);  //힘의 크기와 방향을 같이 적용
 그리고 마지막 부분에 뉴턴의 중력 공식을 이용해 크기를 구하고 그 크기를 setMag() 함수를 이용해 힘의 벡터 크기로 설정합니다.
 이러한 벡터와 관련된 함수들은 다음 레퍼런스에서 사용법을 한번 더 확인할 수 있습니다.
 
-[p5.js vector 관련 함수](https://p5js.org/ko/reference/#/p5.Vector)
+[p5.js vector 관련 함수](https://p5js.org/ko/reference/#/p5.Vector){:target="_blank"}
 
 ## 2. 클래스로 중력 구현하기
 

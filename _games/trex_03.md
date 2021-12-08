@@ -232,10 +232,10 @@ function deleteObstacle(i) {
 
 > 오늘의 과제 
 > 
-> [p5.js 웹에디터](https://editor.p5js.org/) 에서 아래 과제를 해결한 여러분만의 프로그램을 클래스룸 댓글에 공유를 해주세요. 
+> [p5.js 웹에디터](https://editor.p5js.org/){:target="_blank"} 에서 아래 과제를 해결한 여러분만의 프로그램을 클래스룸 댓글에 공유를 해주세요. 
 >
 > (1) text() 함수를 이용해서 공룡이 장애물을 피하지 못하고 충돌하면 'GAME OVER' 메시지를 화면에 출력해보세요.
 >
 > (2) 공룡이 장애물과 충돌하였을 때 공룡의 색깔을 다른 색으로 바뀌게 만들어 보세요.  
 
-[* 문법 참고](https://p5js.org/ko/reference/#/p5/text "ref")
+[* 문법 참고](https://p5js.org/ko/reference/#/p5/text){:target="_blank"}

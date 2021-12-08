@@ -146,4 +146,4 @@ function keyPressed() {
 >
 > (2) 키보드의 키중에 '윗방향 화살표 키'를 눌렀을 때만 점프 기능이 작동하도록 만들어 보세요. (아래 문법을 참고하세요) 
 
-[* 문법 참고](https://p5js.org/ko/reference/#/p5/keyPressed "ref")
+[* 문법 참고](https://p5js.org/ko/reference/#/p5/keyPressed){:target="_blank"}

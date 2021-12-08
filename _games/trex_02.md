@@ -58,7 +58,7 @@ function draw() {
 
 이러한 코드는 이미 지난 온라인 수업의 '06. 입자계 물리' 내용 중에 불꽃놀이를 만들때 사용한 적이 있습니다.
 
-[* 입자계 물리 내용 참고](/particles/ "ref")
+[* 입자계 물리 내용 참고](/particles/){:target="_blank"}
 
 그럼 작접 코당을 통해 장애물 클래스와 객체를 구현해 봅시다. 일단 아래 코드를 살펴보고 여러분 만의 코드를 구현해 봅시다.
 
@@ -165,7 +165,7 @@ function keyPressed() {
 
 일단 코드를 살펴보면 장애물 객체를 그릴 때 rect() 함수를 사용하는데 아래 문법을 참고하세요.
 
-[* 문법 참고](https://p5js.org/ko/reference/#/p5/rect "ref")
+[* 문법 참고](https://p5js.org/ko/reference/#/p5/rect){:target="_blank"}
 
 그리고 배열.push() 는 배열안에 새로운 객체를 저장하는 것이고, for문을 이용하여 배열안의 값을 순서대로 반복하여 꺼내서 실행합니다.
 
@@ -177,10 +177,10 @@ function keyPressed() {
 
 > 오늘의 과제 
 > 
-> [p5.js 웹에디터](https://editor.p5js.org/) 에서 아래 과제를 해결한 여러분만의 프로그램을 클래스룸 댓글에 공유를 해주세요. 
+> [p5.js 웹에디터](https://editor.p5js.org/){:target="_blank"} 에서 아래 과제를 해결한 여러분만의 프로그램을 클래스룸 댓글에 공유를 해주세요. 
 >
 > (1) random() 함수를 이용해서 장애물 마다 다양한 색깔, 다양한 크기, 다양한 속도를 적용해 보세요.
 >
 > (2) 배열을 사용하는 것은 결국에 컴퓨터 메모리를 사용하는 것과 같습니다. 만약 계속 장애물 객체를 생성하게 되면 오랜 시간이 되면 결국에 컴퓨터 메모리가 부족해질 수 도 있답니다. 그렇다면 이제 사용하지 않는 장애물 객체를 어떻게 처리하면 될까요? splice()함수를 이용해 보세요. '06. 입자계 물리' 내용 중에 불꽃놀이를 만들때 사용한 적이 있답니다.   
 
-[* 문법 참고](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/splice "ref")
+[* 문법 참고](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/splice){:target="_blank"}

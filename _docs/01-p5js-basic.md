@@ -62,7 +62,7 @@ function draw() {
 }
 </script>
 
-[* 문법 참고](https://p5js.org/ko/reference/#/p5/background, "ref")
+[* 문법 참고](https://p5js.org/ko/reference/#/p5/background){:target="_blank"}
 
 
 ## 2. 도형 그리기

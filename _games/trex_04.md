@@ -21,7 +21,7 @@ toc_sticky: true
 
 아래와 같이 외부 파일을 사용하기 위해서는 몇가지 단계를 거쳐야 합니다.
 
-> 1. 웹브라우저에서 [p5.js 웹에디터](https://editor.p5js.org/)를 실행시킵니다.
+> 1. 웹브라우저에서 [p5.js 웹에디터](https://editor.p5js.org/){:target="_blank"}를 실행시킵니다.
 > 2. p5.js 웹에디터의 화살표 버튼을 누르면 실제 프로그램에서 사용되는 index.html, sketch.js, style.css 파일들을 볼 수 있습니다.
 !["웹에디터"](/assets/images/webeditor1.png){: .align-center width="100%" height="100%"}
 > 3. 웹에디터에 아래 사진과 같이 이미지, 사운드 파일을 넣을 'asset' 이라는 폴더를 만들어 줍니다.
@@ -97,11 +97,11 @@ class Obstacle{
 }
 ```
 
-[* preload() 문법 참고](https://p5js.org/ko/reference/#/p5/preload "ref")
+[* preload() 문법 참고](https://p5js.org/ko/reference/#/p5/preload){:target="_blank"}
 
-[* image() 문법 참고](https://p5js.org/ko/reference/#/p5/image "ref")
+[* image() 문법 참고](https://p5js.org/ko/reference/#/p5/image){:target="_blank"}
 
-[* sound.play() 문법 참고](https://p5js.org/ko/reference/#/p5.SoundFile/play "ref")
+[* sound.play() 문법 참고](https://p5js.org/ko/reference/#/p5.SoundFile/play){:target="_blank"}
 
 위의 코드를 활용하여 지난 시간에 작성했던 코드들을 수정해서 적용해 보고 공룡과 장애물의 크기와 속도값 등을 조절해서 더 그럴듯한 움직임을 만들어 보세요.
 
@@ -115,7 +115,7 @@ class Obstacle{
 
 > 오늘의 과제 
 > 
-> [p5.js 웹에디터](https://editor.p5js.org/) 에서 아래 과제를 해결한 여러분만의 프로그램을 클래스룸 댓글에 공유를 해주세요. 
+> [p5.js 웹에디터](https://editor.p5js.org/){:target="_blank"} 에서 아래 과제를 해결한 여러분만의 프로그램을 클래스룸 댓글에 공유를 해주세요. 
 >
 > (1) 공룡이 점프했을 때 이미지를 dinoJump로 바꿔보세요. 
 >

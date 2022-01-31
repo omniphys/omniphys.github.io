@@ -175,8 +175,6 @@ btnSearch.on('click', function(e){
         return false;
     }
 
-    if (chkPhoneNum(sTel)) { return false; }
-
     $('#hr').sheetrock({
         url: mySpreadsheet,
         query: "select A,B,C,E,H where H='" + sTel + "'",
@@ -198,15 +196,7 @@ btnSearch.on('click', function(e){
     //inputStudent.attr('disabled', true);
 })
 
-function chkPhoneNum(txtNum) {
-  var isWrong = false;
-  var regPhone = /^01([0|1|6|7|8|9])[-]([0-9]{3,4})[-]([0-9]{4})$/;
-  if (regPhone.test(txtNum) === false) {
-    alert('전화번호 형식이 아닙니다. 010-0000-0000 형태로 입력해주세요.');
-    isWrong = true;
-  }
-  return isWrong;
-}
+
 
 function isLoading(status){
   if(status){
@@ -234,14 +224,6 @@ $('#google-submit').click(function () {
 
   //빈값 체크
   if (checkInput()) { return; }
-
-  if (chkPhoneNum(inputMother.val())) { return false; }
-  if (chkPhoneNum(inputFather.val())) { return false; }
-  if (inputMother.val()==inputFather.val()) {
-    alert("어머니, 아버지 연락처가 동일합니다. 다시 확인해주세요.");
-    return false;
-  }
-
 
   // 입력중..
   isLoading(true);

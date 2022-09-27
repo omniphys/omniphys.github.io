@@ -27,6 +27,8 @@ docs:
         url: /particles/
       - title: "탄성력"
         url: /spring/
+      - title: "진자의 운동"
+        url: /pendulum/
       - title: "충돌의 물리학"
         url: /collision/
       - title: "빗면에서의 운동"

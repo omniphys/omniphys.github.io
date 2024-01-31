@@ -6,3 +6,10 @@
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+
+img + em {
+    display: block;
+    text-align: center;
+    font-size: .8rem;
+    color: light-grey;
+  }

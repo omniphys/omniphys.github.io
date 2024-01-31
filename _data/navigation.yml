@@ -65,3 +65,5 @@ ml:
         url: /ml/ga/
       - title: "인공 신경망"
         url: /ml/nn/
+      - title: "퍼셉트론"
+        url: /ml/perceptron/

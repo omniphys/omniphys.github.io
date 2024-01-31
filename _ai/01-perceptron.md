@@ -11,7 +11,7 @@ toc_sticky: true
 {: .notice--info}
 
 ## 1. 퍼셉트론의 등장
-컴퓨터 과학자들은 오랫동안 인간의 두뇌에서 영감을 받아왔습니다. 인공지능을 설계하기 위해 1943년 신경과학자인 Warren S. McCulloch와 논리학자인 Walter Pitts가 처음으로 간소화된 뇌의 뉴런 개념을 적용한 인공 신경망<sup>[1](#footnote_1)</sup>을 제안하였습니다. 
+과학자들은 오랫동안 인간의 두뇌에서 영감을 받아왔습니다. 인공지능을 설계하기 위해 1943년 신경과학자인 Warren S. McCulloch와 논리학자인 Walter Pitts가 처음으로 간소화된 뇌의 뉴런 개념을 적용한 인공 신경망<sup>[1](#footnote_1)</sup>을 제안하였습니다. 
 
 !["맥컬록-피츠 뉴런"](/assets/images/mcp_neuron.jpg){: .align-center width="100%" height="100%"}
 *맥컬록-피츠가 제안한 최초의 인공신경망 개념*

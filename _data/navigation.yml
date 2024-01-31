@@ -4,8 +4,8 @@ main:
     url: /p5js-basic/
   - title: "게임 & 시뮬레이션"
     url: /games/phys_sim/
-  - title: "머신러닝"
-    url: /ml/intro/
+  - title: "AI융합교육"
+    url: /ai/perceptron/
   # - title: "Sample Collections"
   #   url: /collection-archive/s
   # - title: "Sitemap"
@@ -56,14 +56,19 @@ games:
         url: /games/trex_05/
       - title: "인공지능 공룡 게임"
         url: /games/trex_06/
-ml:
-  - title: 물리와 머신러닝
+ai:
+  - title: AI융합교육
     children:
-      - title: "인공 지능 기술 소개"
-        url: /ml/intro/
-      - title: "유전 알고리즘"
-        url: /ml/ga/
-      - title: "인공 신경망"
-        url: /ml/nn/
       - title: "퍼셉트론"
-        url: /ml/perceptron/
+        url: /ai/perceptron/
+#ml:
+#  - title: 물리와 머신러닝
+#    children:
+#      - title: "인공 지능 기술 소개"
+#        url: /ml/intro/
+#      - title: "유전 알고리즘"
+#        url: /ml/ga/
+#      - title: "인공 신경망"
+#        url: /ml/nn/
+#      - title: "퍼셉트론"
+#        url: /ml/perceptron/

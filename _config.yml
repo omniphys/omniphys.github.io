@@ -330,10 +330,10 @@ defaults:
       comments: false
       sidebar:
         nav: "games"
-  # _ml
+  # _ai
   - scope:
       path: ""
-      type: ml
+      type: ai
     values:
       layout: single
       read_time: false
@@ -341,4 +341,4 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "ml"
+        nav: "ai"

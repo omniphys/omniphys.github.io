@@ -278,7 +278,7 @@ collections:
   games:
     output: true
     permalink: /:collection/:path/
-  ml:
+  ai:
     output: true
     permalink: /:collection/:path/
 

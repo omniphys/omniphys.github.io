@@ -5,7 +5,7 @@ main:
   - title: "게임 & 시뮬레이션"
     url: /games/phys_sim/
   - title: "AI융합교육"
-    url: /ai/perceptron/
+    url: /ai/ga/
   # - title: "Sample Collections"
   #   url: /collection-archive/s
   # - title: "Sitemap"

@@ -26,7 +26,7 @@ feature_row:
     alt: "Machine Learning"
     title: "물리와 인공지능"
     excerpt: "물리학에 적용할 수 있는 기계학습, 강화학습, 딥러닝 기술에 대해 배워봅시다."
-    url: "/ai/perceptron/"
+    url: "/ai/ga/"
     btn_class: "btn--primary"
     btn_label: "학습 시작"
 

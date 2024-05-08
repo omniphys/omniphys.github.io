@@ -59,8 +59,8 @@ games:
 ai:
   - title: AI융합교육
     children:
-      - title: "퍼셉트론"
-        url: /ai/perceptron/
+      - title: "유전 알고리즘"
+        url: /ai/ga/
 #ml:
 #  - title: 물리와 머신러닝
 #    children:

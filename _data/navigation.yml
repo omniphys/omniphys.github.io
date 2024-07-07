@@ -72,7 +72,7 @@ ai:
   - title: AI융합교육
     children:
       - title: "인공 지능 기술 소개"
-       url: /ai/intro/
+        url: /ai/intro/
       - title: "유전 알고리즘"
         url: /ai/ga/
       - title: "인공 신경망"

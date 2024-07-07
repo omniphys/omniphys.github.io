@@ -344,7 +344,7 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "vehicle"
+        nav: "games"
   # _ai
   - scope:
       path: ""

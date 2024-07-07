@@ -278,6 +278,9 @@ collections:
   games:
     output: true
     permalink: /:collection/:path/
+  vehicle:
+    output: true
+    permalink: /:collection/:path/
   ai:
     output: true
     permalink: /:collection/:path/
@@ -330,6 +333,18 @@ defaults:
       comments: false
       sidebar:
         nav: "games"
+  # _vehicle
+  - scope:
+      path: ""
+      type: vehicle
+    values:
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      sidebar:
+        nav: "vehicle"
   # _ai
   - scope:
       path: ""

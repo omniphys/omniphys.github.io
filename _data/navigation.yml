@@ -5,7 +5,7 @@ main:
   - title: "게임 & 시뮬레이션"
     url: /games/phys_sim/
   - title: "AI융합교육"
-    url: /ai/ga/
+    url: /ai/intro/
   # - title: "Sample Collections"
   #   url: /collection-archive/s
   # - title: "Sitemap"
@@ -56,11 +56,27 @@ games:
         url: /games/trex_05/
       - title: "인공지능 공룡 게임"
         url: /games/trex_06/
+  - title: 자율 에이전트
+    children:
+      - title: "조향"
+        url: /vehicle/steering/
+      - title: "추적 및 회피"
+        url: /vehicle/pursue/
+      - title: "도착 및 배회"
+        url: /vehicle/arrive/
+      - title: "경로 추적"
+        url: /vehicle/follow/
+      - title: "군집 활동"
+        url: /vehicle/flocking/
 ai:
   - title: AI융합교육
     children:
+      - title: "인공 지능 기술 소개"
+       url: /ai/intro/
       - title: "유전 알고리즘"
         url: /ai/ga/
+      - title: "인공 신경망"
+        url: /ai/nn/
 #ml:
 #  - title: 물리와 머신러닝
 #    children:

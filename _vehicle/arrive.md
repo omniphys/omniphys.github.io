@@ -17,3 +17,9 @@ toc_sticky: true
 > 3. 조금 가까워 졌으니 조금 느리게 접근하자!
 > 4. 곧 도착이다! 가능한 한 느리게 접근하자!
 > 5. 도착했다! 정지!
+
+!["도착행동"](/assets/images/arrive_02.png){: .align-center width="80%" height="80%"}
+
+
+!["도착행동"](/assets/images/arrive_03.png){: .align-center width="80%" height="80%"}
+

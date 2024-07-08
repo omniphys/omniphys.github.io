@@ -35,20 +35,221 @@ toc_sticky: true
 </div>
 
 ## 2. 조향력 (Steering Force)
-조향력은 자율 에이전트가 행동의 목적을 달성하기 위해 작용하는 힘이라고 생각하면 됩니다. 예를 들어 아래 그림과 같이 이동하던 곤충이 좋아하는 딸기를 발견했을 때 어떻게 조향력을 작용해야 딸기에 도달할 수 있을까요?
+조향력은 자율 에이전트가 행동의 목적을 달성하기 위해 작용하는 힘이라고 생각하면 됩니다. 예를 들어 아래 그림과 같이 이동하던 개체(자율 에이전트)이 좋아하는 딸기(목표)를 발견했을 때 어떻게 조향력을 작용해야 딸기에 도달할 수 있을까요?
+
+개체의 목적과 목적에 따른 행동은 아래 목표를 찾아 움직이는 것입니다. 단순하게 중력처럼 개체가 목표에 끌려가게 구현할 수 도 있지만, 자율 에이전트는 스스로의 상태와 환경(현재의 이동속도 등)을 인식하고 이를 기반으로 목표를 향해 조향(속도를 결정)하게 됩니다. 
 
 !["속도와 목표가 있는 자율 에이전트"](/assets/images/steering_01.png){: .align-center width="80%" height="80%"}
 
+개체는 스스로가 어떻게 이동하고 싶은지를 인식하고(목표를 향하는 벡터를 구하고) 해당 목표와 현재의 이동 속도를 비교해 조향력을 결정하게 됩니다. 이 때 조향력은 목표를 향한 속도 벡터에서 현재 이동 속도 벡터의 차로 구할 수 있습니다. 
+
+> 조향력  = 원하는 속도 - 현재 속도
+
+p5.js 코드로는 다음과 같이 표현할 수 있습니다.
+
+```javascript
+let steer = p5.Vector.sub(desired, velocity);
+```
+이 때 개체의 속도(velocity)는 개체의 변수값에서 바로 알 수 있으며, 원하는 속도(desired)는 현재 위치에서 목표의 위치를 향하는 벡터로 표현할 수 있습니다.
+
+```javascript
+let desired = p5.Vector.sub(target, position);
+```
+
 !["목표지점"](/assets/images/steering_02.png){: .align-center width="80%" height="80%"}
+
+그렇지만 원하는 속도(desired)의 크기를 제한하지 않으면 개체와 목표가 멀리 떨어져 있으면 너무 강한 힘이 작용해 순간이동하는 모습을 볼 수도 있습니다. 이러한 상황은 현실적이지 않기 때문에 다음 그림과 같이 적정한 크기의 원하는 속도의 크기로 설정해야 하며, 개체가 자신이 움직일 수 있는 나름대로의 최대 속도로 목표를 향해 움직이게 합니다. 
 
 !["최대 속도의 제한"](/assets/images/steering_03.png){: .align-center width="80%" height="80%"}
 
+p5.js 코드로 원하는 속도의 크기를 다음과 같이 수정하여 표현할 수 있습니다.
+
+```javascript
+let desired = p5.Vector.sub(target, this.position);
+desired.setMag(this.maxspeed);
+```
+
+이를 통해 그림과 같이 조향력을 결정할 수 있습니다. 자율 에이전트의 능력에는 한계가 있기 때문에 조향력 자체의 크기에도 한계가 있습니다. 그래서 조향력의 최대값을 정해 조향력이 그 최대값 이상 값을 갖지 못하도록 설정해야 합니다.
+
 !["조향력의 계산"](/assets/images/steering_04.png){: .align-center width="80%" height="80%"}
+
+지금까지 내용을 바탕으로 조향력을 계산하는 클래스의 메서드 seek()를 다음과 같이 구현할 수 있습니다. 
+
+```javascript
+ seek(target) {
+    let desired = p5.Vector.sub(target,this.position);  // 원하는 속도 벡터
+    desired.setMag(this.maxspeed);                      // 원하는 속도를 최대값으로 결정
+    let steer = p5.Vector.sub(desired, this.velocity);  // 조향력 벡터
+    steer.limit(this.maxforce);                         // 조향력의 크기 범위를 결정
+    this.applyForce(steer);                             // 물리엔진의 힘을 결정
+  }
+```
+
+조향력의 최대 크기(maxforce)에 따라 개체의 경로는 아래와 같이 달라지게 되며, 구현하려고 하는 자연적 현상을 가장 잘 표현하는 조향력의 최대 크기를 상황에 맞게 설정하면 됩니다.
 
 !["조향력의 크기에 따른 경로"](/assets/images/steering_05.png){: .align-center width="80%" height="80%"}
 
 
-<p align="center">
-<iframe src="/p5/steering_agent/" width="640" height="240" frameborder="0"></iframe>
-</p>
 
+> ### 활동 1. 목표를 추적하는 자율 에이전트
+
+마우스에 따라 움직이는 목표를 향해 지속적으로 조향하는 자율 에이전트를 구현해 봅시다.
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="800" data-p5-version="1.2.0">
+let vehicle;
+
+function setup() {
+  createCanvas(100, 100);
+  vehicle = new Vehicle(width / 2, height / 2);
+}
+
+function draw() {
+  background(200);
+
+  let mouse = createVector(mouseX, mouseY);
+
+  fill(127);
+  stroke(0);
+  strokeWeight(2);
+  circle(mouse.x, mouse.y, 10);
+
+  vehicle.seek(mouse);
+  vehicle.update();
+  vehicle.show();
+}
+
+class Vehicle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = createVector(0, 0);
+    this.acceleration = createVector(0, 0);
+    this.r = 2;
+    this.maxspeed = 2;
+    this.maxforce = 0.1;
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxspeed);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  seek(target) {
+    let desired = p5.Vector.sub(target, this.position); 
+    desired.setMag(this.maxspeed);
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxforce);
+    this.applyForce(steer);
+  }
+  show() {
+    let angle = this.velocity.heading();
+    fill(127);
+    stroke(0);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(angle);
+    beginShape();
+    vertex(this.r * 2, 0);
+    vertex(-this.r * 2, -this.r);
+    vertex(-this.r * 2, this.r);
+    endShape(CLOSE);
+    pop();
+  }
+}
+</script>
+
+> ### 활동 2. 목표를 회피하는 자율 에이전트
+
+마우스에 따라 움직이는 목표를 회피하는 자율 에이전트를 구현해 봅시다.
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="800" data-p5-version="1.2.0">
+let vehicle;
+let target;
+
+function setup() {
+  createCanvas(100, 100);
+  vehicle = new Vehicle(width / 2, height / 2);
+}
+
+function draw() {
+  background(0);
+
+  fill(255, 0, 0);
+  noStroke();
+  target = createVector(mouseX, mouseY);
+  circle(target.x, target.y, 10);
+
+  let steering = vehicle.flee(target);
+  vehicle.applyForce(steering);
+
+  vehicle.edges();
+  vehicle.update();
+  vehicle.show();
+}
+
+class Vehicle {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(0, 0);
+    this.acc = createVector(0, 0);
+    this.maxSpeed = 2;
+    this.maxForce = 0.1;
+    this.r = 2;
+  }
+
+  flee(target) {
+    return this.seek(target).mult(-1);
+  }
+
+  seek(target) {
+    let force = p5.Vector.sub(target, this.pos);
+    force.setMag(this.maxSpeed);
+    force.sub(this.vel);
+    force.limit(this.maxForce);
+    return force;
+  }
+
+  applyForce(force) {
+    this.acc.add(force);
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
+    this.pos.add(this.vel);
+    this.acc.set(0, 0);
+  }
+
+  show() {
+    stroke(255);
+    strokeWeight(2);
+    fill(255);
+    push();
+    translate(this.pos.x, this.pos.y);
+    rotate(this.vel.heading());
+    triangle(-this.r, -this.r / 2, -this.r, this.r / 2, this.r, 0);
+    pop();
+  }
+
+  edges() {
+    if (this.pos.x > width + this.r) {
+      this.pos.x = -this.r;
+    } else if (this.pos.x < -this.r) {
+      this.pos.x = width + this.r;
+    }
+    if (this.pos.y > height + this.r) {
+      this.pos.y = -this.r;
+    } else if (this.pos.y < -this.r) {
+      this.pos.y = height + this.r;
+    }
+  }
+}
+
+</script>

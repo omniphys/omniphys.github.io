@@ -58,10 +58,8 @@ games:
         url: /games/trex_06/
   - title: 자율 에이전트
     children:
-      - title: "조향"
+      - title: "자율 에이전트의 조향"
         url: /vehicle/steering/
-      - title: "추적 및 회피"
-        url: /vehicle/pursue/
       - title: "도착 및 배회"
         url: /vehicle/arrive/
       - title: "경로 추적"

@@ -147,6 +147,7 @@ class Vehicle {
     steer.limit(this.maxforce);
     this.applyForce(steer);
   }
+
   show() {
     let angle = this.velocity.heading();
     fill(127);
@@ -171,7 +172,6 @@ class Vehicle {
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="800" data-p5-version="1.2.0">
 let vehicle;
-let target;
 
 function setup() {
   createCanvas(100, 100);
@@ -179,14 +179,17 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(200);
 
   fill(255, 0, 0);
   noStroke();
-  target = createVector(mouseX, mouseY);
-  circle(target.x, target.y, 10);
+  let mouse = createVector(mouseX, mouseY);
+  fill(127);
+  stroke(0);
+  strokeWeight(2);
+  circle(mouse.x, mouse.y, 10);
 
-  let steering = vehicle.flee(target);
+  let steering = vehicle.flee(mouse);
   vehicle.applyForce(steering);
 
   vehicle.edges();
@@ -196,12 +199,12 @@ function draw() {
 
 class Vehicle {
   constructor(x, y) {
-    this.pos = createVector(x, y);
-    this.vel = createVector(0, 0);
-    this.acc = createVector(0, 0);
-    this.maxSpeed = 2;
-    this.maxForce = 0.1;
+    this.position = createVector(x, y);
+    this.velocity = createVector(0, 0);
+    this.acceleration = createVector(0, 0);
     this.r = 2;
+    this.maxspeed = 2;
+    this.maxforce = 0.1;
   }
 
   flee(target) {
@@ -209,47 +212,166 @@ class Vehicle {
   }
 
   seek(target) {
-    let force = p5.Vector.sub(target, this.pos);
-    force.setMag(this.maxSpeed);
-    force.sub(this.vel);
-    force.limit(this.maxForce);
-    return force;
+    let desired = p5.Vector.sub(target, this.position);
+    desired.setMag(this.maxspeed);
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxforce);
+    return steer;
   }
 
   applyForce(force) {
-    this.acc.add(force);
+    this.acceleration.add(force);
   }
 
   update() {
-    this.vel.add(this.acc);
-    this.vel.limit(this.maxSpeed);
-    this.pos.add(this.vel);
-    this.acc.set(0, 0);
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxspeed);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
   }
 
   show() {
-    stroke(255);
-    strokeWeight(2);
-    fill(255);
+    let angle = this.velocity.heading();
+    fill(127);
+    stroke(0);
     push();
-    translate(this.pos.x, this.pos.y);
-    rotate(this.vel.heading());
-    triangle(-this.r, -this.r / 2, -this.r, this.r / 2, this.r, 0);
+    translate(this.position.x, this.position.y);
+    rotate(angle);
+    beginShape();
+    vertex(this.r * 2, 0);
+    vertex(-this.r * 2, -this.r);
+    vertex(-this.r * 2, this.r);
+    endShape(CLOSE);
     pop();
   }
 
   edges() {
-    if (this.pos.x > width + this.r) {
-      this.pos.x = -this.r;
-    } else if (this.pos.x < -this.r) {
-      this.pos.x = width + this.r;
+    if (this.position.x > width + this.r) {
+      this.position.x = -this.r;
+    } else if (this.position.x < -this.r) {
+      this.position.x = width + this.r;
     }
-    if (this.pos.y > height + this.r) {
-      this.pos.y = -this.r;
-    } else if (this.pos.y < -this.r) {
-      this.pos.y = height + this.r;
+    if (this.position.y > height + this.r) {
+      this.position.y = -this.r;
+    } else if (this.position.y < -this.r) {
+      this.position.y = height + this.r;
     }
   }
 }
+</script>
 
+## 3. 벽 안에 머무르기 
+활동 2에서는 자율 에이전트가 경계를 벗아나면 반대쪽에서 나타나도록 코드를 구현하였습니다. 만약 벽의 내부에서 벗어나지 말기라는 조향 행동을 만들고 싶다면 어떻게 하면 될까요?
+
+그림과 같이 벽을 설정해서 '원하는 속도(desired)'를 다음과 같이 정의할 수 있습니다.
+
+> 자율 에이전트는 벽으로부터 거리 d만큼 가까워지면 최대속력으로 벽의 반대 방향으로 달아나려는 본능을 가진다.
+
+이러한 조향 행동을 기존 Vehicle 클래스의 boundaries() 메소드로 구현해 보겠습니다.
+
+```javascript
+ boundaries(offset) {
+    let desired = null;
+    if (this.position.x < offset) {
+      desired = createVector(this.maxspeed, this.velocity.y);
+    } else if (this.position.x > width - offset) {
+      desired = createVector(-this.maxspeed, this.velocity.y);
+    }
+    if (this.position.y < offset) {
+      desired = createVector(this.velocity.x, this.maxspeed);
+    } else if (this.position.y > height - offset) {
+      desired = createVector(this.velocity.x, -this.maxspeed);
+    }
+    if (desired !== null) {
+      desired.setMag(this.maxspeed);
+      let steer = p5.Vector.sub(desired, this.velocity);
+      steer.limit(this.maxforce);
+      this.applyForce(steer);
+    }
+  }
+```
+> ### 활동 3. 벽의 내부에서 벗어나지 않는 자율 에이전트
+
+화면 경계를 벗어나지 않는 자율 에이전트를 구현해 봅시다.
+
+<script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script type="text/p5" data-height="800" data-p5-version="1.2.0">
+let vehicle;
+let offset = 10;
+
+function setup() {
+  createCanvas(100, 100);
+  vehicle = new Vehicle(width / 2, height / 2);
+}
+
+function draw() {
+  background(200);
+
+  stroke(0);
+  noFill();
+  rectMode(CENTER);
+  rect(width / 2, height / 2, width - offset * 2, height - offset * 2);
+
+  vehicle.boundaries(offset);
+  vehicle.update();
+  vehicle.show();
+}
+
+class Vehicle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = createVector(1, 1.3);
+    this.acceleration = createVector(0, 0);
+    this.r = 2;
+    this.maxspeed = 1;
+    this.maxforce = 0.05;
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxspeed);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  boundaries(offset) {
+    let desired = null;
+    if (this.position.x < offset) {
+      desired = createVector(this.maxspeed, this.velocity.y);
+    } else if (this.position.x > width - offset) {
+      desired = createVector(-this.maxspeed, this.velocity.y);
+    }
+    if (this.position.y < offset) {
+      desired = createVector(this.velocity.x, this.maxspeed);
+    } else if (this.position.y > height - offset) {
+      desired = createVector(this.velocity.x, -this.maxspeed);
+    }
+
+    if (desired !== null) {
+      desired.setMag(this.maxspeed);
+      let steer = p5.Vector.sub(desired, this.velocity);
+      steer.limit(this.maxforce);
+      this.applyForce(steer);
+    }
+  }
+
+  show() {
+    let angle = this.velocity.heading();
+    fill(127);
+    stroke(0);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(angle);
+    beginShape();
+    vertex(this.r * 2, 0);
+    vertex(-this.r * 2, -this.r);
+    vertex(-this.r * 2, this.r);
+    endShape(CLOSE);
+    pop();
+  }
+}
 </script>

@@ -62,7 +62,7 @@ games:
         url: /vehicle/steering/
       - title: "도착 및 배회"
         url: /vehicle/arrive/
-      - title: "경로 추적"
+      - title: "흐름장 및 경로 추적"
         url: /vehicle/follow/
       - title: "군집 활동"
         url: /vehicle/flocking/

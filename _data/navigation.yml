@@ -64,7 +64,7 @@ games:
         url: /vehicle/arrive/
       - title: "흐름장 및 경로 추적"
         url: /vehicle/follow/
-      - title: "군집 활동"
+      - title: "군집 행동"
         url: /vehicle/flocking/
 ai:
   - title: AI융합교육

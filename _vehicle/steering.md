@@ -89,8 +89,6 @@ desired.setMag(this.maxspeed);
 
 !["조향력의 크기에 따른 경로"](/assets/images/steering_05.png){: .align-center width="80%" height="80%"}
 
-
-
 > ### 활동 1. 목표를 추적하는 자율 에이전트
 
 마우스에 따라 움직이는 목표를 향해 지속적으로 조향하는 자율 에이전트를 구현해 봅시다.

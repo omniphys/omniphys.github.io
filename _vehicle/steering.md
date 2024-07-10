@@ -167,7 +167,38 @@ class Vehicle {
 
 > ### 활동 2. 목표를 회피하는 자율 에이전트
 
-마우스에 따라 움직이는 목표를 회피하는 자율 에이전트를 구현해 봅시다.
+마우스에 따라 움직이는 목표를 회피하는 자율 에이전트를 구현해 봅시다. 기존의 Vehicle 클래스에 원하는 속력을 반대로 설정하여 도망가게 하는 flee() 메소드를 추가하고 seek() 메소드를 다음과 같이 수정할 수 있습니다.
+
+```javascript
+  flee(target) {
+    return this.seek(target).mult(-1);
+  }
+
+  seek(target) {
+    let desired = p5.Vector.sub(target, this.position);
+    desired.setMag(this.maxspeed);
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxforce);
+    return steer;
+  }
+```
+
+그리고 자율 에이전트가 계속 스크린에 나타나도록 스크린 경계를 벗어나면 반대편 경계에서 나타나도록 하는 edges() 메소드 코드를 추가해보겠습니다.
+
+```javascript
+  edges() {
+    if (this.position.x > width + this.r) {
+      this.position.x = -this.r;
+    } else if (this.position.x < -this.r) {
+      this.position.x = width + this.r;
+    }
+    if (this.position.y > height + this.r) {
+      this.position.y = -this.r;
+    } else if (this.position.y < -this.r) {
+      this.position.y = height + this.r;
+    }
+  }
+```
 
 <script src="//toolness.github.io/p5.js-widget/p5-widget.js"></script>
 <script type="text/p5" data-height="800" data-p5-version="1.2.0">
@@ -261,7 +292,7 @@ class Vehicle {
 </script>
 
 ## 3. 벽 안에 머무르기 
-활동 2에서는 자율 에이전트가 경계를 벗아나면 반대쪽에서 나타나도록 코드를 구현하였습니다. 만약 벽의 내부에서 벗어나지 말기라는 조향 행동을 만들고 싶다면 어떻게 하면 될까요?
+활동 2에서는 자율 에이전트가 경계를 벗어나면 반대쪽에서 나타나도록 코드를 구현하였습니다. 만약 벽의 내부에서 벗어나지 말기라는 조향 행동을 만들고 싶다면 어떻게 하면 될까요?
 
 그림과 같이 벽을 설정해서 '원하는 속도(desired)'를 다음과 같이 정의할 수 있습니다.
 

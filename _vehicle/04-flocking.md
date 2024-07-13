@@ -332,3 +332,11 @@ class Boid {
   }
 }
 ```
+> 오늘의 과제 
+>
+> The Computiational Beauty of Nature(MIT Press, 2000)을 보면 세 가지 군집 헹동 알고리즘(분리, 정렬, 결합) 외에 네 번째 규칙을 제안하고 있습니다. 네 번째 규칙은 시야와 관련된 것인데 '앞에 시야를 가리는 개체가 있으면 회피하는 행동'입니다. 앞서 구현한 시뮬레이션에 네 번째 규칙을 적용해보세요.   
+!["시야"](/assets/images/flocking_03.png){: .align-center width="50%" height="50%"}
+
+<p align="center">
+<iframe src="/p5/flocking_view/" width="640" height="430" frameborder="0"></iframe>
+</p>

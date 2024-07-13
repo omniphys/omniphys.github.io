@@ -404,3 +404,14 @@ class Vehicle {
   }
 }
 </script>
+
+> 참고 자료
+
+본 수업 활동 자료는 Daniel Shiffman의 'Nature of Code'의 내용을 참고하여 작성되었습니다.
+
+* 다니엘 쉬프만 (2016). Nature of Code, 한빛미디어
+
+* [Coding Train 웹사이트](https://thecodingtrain.com/){:target="_blank"}
+
+* [Coding Train 유튜브](https://www.youtube.com/@TheCodingTrain){:target="_blank"}
+ 

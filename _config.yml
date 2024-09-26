@@ -281,6 +281,9 @@ collections:
   vehicle:
     output: true
     permalink: /:collection/:path/
+  tsp:
+    output: true
+    permalink: /:collection/:path/
   ai:
     output: true
     permalink: /:collection/:path/
@@ -337,6 +340,18 @@ defaults:
   - scope:
       path: ""
       type: vehicle
+    values:
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      sidebar:
+        nav: "games"
+  # _tsp
+  - scope:
+      path: ""
+      type: tsp
     values:
       layout: single
       read_time: false

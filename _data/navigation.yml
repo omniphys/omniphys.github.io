@@ -66,6 +66,12 @@ games:
         url: /vehicle/follow/
       - title: "군집 행동"
         url: /vehicle/flocking/
+  - title: 외판원 순회 문제
+    children:
+      - title: "기초 알고리즘"
+        url: /tsp/tsp-basic/
+      - title: "유전 알고리즘의 적용"
+        url: /tsp/tsp-ga/
 ai:
   - title: AI융합교육
     children:

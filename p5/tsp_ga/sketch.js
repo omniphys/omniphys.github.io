@@ -1,61 +1,3 @@
----
-title: "외판원 순회 문제"
-permalink: /tsp/tsp-ga/
-excerpt: "외판원 순회 문제의 유전 알고리즘 적용"
-last_modified_at: 2024-09-26
-toc: true
-toc_sticky: true
----
-
-## 1. 유전 알고리즘 적용하기
-
-TSP(외판원 순회 문제)는 도시의 수가 증가할수록 가능한 경로의 수가 기하급수적으로 증가하는 문제로, 완전 탐색, 랜덤 탐색으로는 현실적으로 해결이 어렵습니다. 그래서 큰 탐색 공간에서 효율적으로 근사해를 찾을 수 있는 유전 알고리즘이 효율적일 수 있습니다.
-
-{% capture notice-text1 %}
-* 유전 알고리즘은 한 번에 여러 해를 동시에 탐색하는 집단 기반 탐색 기법입니다. 초기에는 무작위로 여러 개의 경로(해)를 생성하고, 이 경로들을 교차 및 돌연변이 과정을 통해 새로운 경로들을 생성합니다. 이 방식은 단일 경로를 탐색하는 방법보다 훨씬 넓은 탐색 공간을 빠르게 탐험할 수 있습니다.
-
-{% endcapture %}
-<div class="notice--warning">
-  <h4 class="no_toc">1. 탐색 공간의 효율적 탐험</h4>
-  {{ notice-text1 | markdownify }}
-</div>
-
-{% capture notice-text2 %}
-* 유전 알고리즘은 정확한 최적해를 찾는 것이 아니라 최적해에 가까운 근사해를 찾는 데 적합합니다. 특히 도시의 수가 많아져서 완전 탐색이 불가능한 상황에서는, 유전 알고리즘을 통해 상대적으로 빠르게 좋은 해를 얻을 수 있습니다.
-
-{% endcapture %}
-<div class="notice--warning">
-  <h4 class="no_toc">2. 근사해를 빠르게 찾을 수 있음</h4>
-  {{ notice-text2 | markdownify }}
-</div>
-
-{% capture notice-text3 %}
-* 유전 알고리즘은 돌연변이와 교차 연산을 통해 해집단의 다양성을 유지합니다. 이는 지역 최적해(Local Optimum)에 빠지는 문제를 방지하고, 더 넓은 탐색 공간에서 보다 나은 해를 찾는 가능성을 높여줍니다.
-
-{% endcapture %}
-<div class="notice--warning">
-  <h4 class="no_toc">3. 다양성 유지</h4>
-  {{ notice-text3 | markdownify }}
-</div>
-
-{% capture notice-text4 %}
-* 유전 알고리즘은 세대를 거듭할수록 해의 품질이 점진적으로 향상됩니다. 자연 선택을 모방한 적합도 기반의 선택 과정을 통해, 더 나은 경로들이 살아남고 교배되며 시간이 지날수록 더 짧은 경로를 찾을 확률이 높아집니다. 이 과정은 직관적으로 자연 선택에 기반하고 있어 이해하기 쉽고, 성능도 점진적으로 향상됩니다.
-
-{% endcapture %}
-<div class="notice--warning">
-  <h4 class="no_toc">4. 점진적 향상 가능</h4>
-  {{ notice-text1 | markdownify }}
-</div>
-
-수업의 순서와 위치를 유전 알고리즘의 유전자로 설정하고 학생의 이동거리가 최소가 되도록 적응도를 설정하여 유전알고리즘을 적용하면 빠르게  근사해를 찾는 것을 확인할 수 있습니다.
-
-<p align="center">
-<iframe src="/p5/tsp_ga/" width="640" height="600" frameborder="0"></iframe>
-</p>
-
-구현한 코드는 다음과 같습니다.
-
-```javascript
 const cities = [];
 const totalCities = 15;
 
@@ -69,7 +11,7 @@ let currentBest;
 
 
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(640, 600);
   const order = [];
   for (let i = 0; i < totalCities; i++) {
     const v = createVector(random(width), random(height / 2));
@@ -210,5 +152,3 @@ function mutate(order, mutationRate) {
     }
   }
 }
-
-```

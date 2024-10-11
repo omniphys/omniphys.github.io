@@ -72,6 +72,8 @@ games:
         url: /tsp/tsp-basic/
       - title: "유전 알고리즘의 적용"
         url: /tsp/tsp-ga/
+      - title: "이동 수업 시간표 최적화"
+        url: /tsp/tsp-timetable/
 ai:
   - title: AI융합교육
     children:

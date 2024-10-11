@@ -120,14 +120,22 @@ function calcDistance(points) {
 ```
 
 ## 2. 완전 탐색 방법 (Brute Force) 사용하기
-위의 구현한 코드는 랜덤하게 순서를 바꿔가면서 최적 경로를 찾기 때문에 언제 최적값에 도달하는지 확인할 수 없는 문제점이 있습니다. 그래서 시간은 많이 걸리지만 모든 경우의 수를 따져가면서 처음부터 모든 경로를 탐색해보는 방법을 통해 TSP 문제를 해결할 수 있습니다. 순서대로 모든 도시간의 경로를 찾기 위해 사전식 순서(lexicographical order)를 사용할 수 있으며 다음 순열 알고리즘(Next Permutation Algorithm)이라고 합니다.
+위의 구현한 코드는 랜덤하게 순서를 바꿔가면서 최적 경로를 찾기 때문에 언제 최적값에 도달하는지 확인할 수 없는 문제점이 있습니다. 그래서 시간은 많이 걸리지만 모든 경우의 수를 따져가면서 처음부터 모든 경로를 탐색해보는 방법을 통해 TSP 문제를 해결할 수 있습니다. 그래서 기존 코드에 순회 순서를 나타내는 order[] 배열을 아래 그림과 같이 추가적으로 만듭니다.
+
+!["TSP_lexi_01"](/assets/images/tsp_lexi_01.png){: .align-center width="60%" height="60%"}
+
+순서대로 모든 도시간의 경로를 찾기 위해 사전식 순서(lexicographical order)를 사용할 수 있으며 다음 순열 알고리즘(Next Permutation Algorithm)이라고 합니다.
 
 > 1. 가장 큰 x 찾기: 배열에서 P[x] < P[x+1]을 만족하는 가장 큰 x를 찾습니다. (만약 그런 x가 없다면, 현재 순열은 마지막 순열입니다.)
 > 2. 가장 큰 y 찾기: P[x] < P[y]를 만족하는 가장 큰 y를 찾습니다.
 > 3. P[x]와 P[y] 교환: P[x]와 P[y]를 서로 교환합니다.
 > 4. P[x+1]부터 P[n]까지 반전: P[x+1]부터 배열의 끝까지 순서를 뒤집습니다.
 
-이를 적용하여 모든 경우의 수를 탐색하는 코드로 구현하면 다음과 같습니다.
+이를 적용하여 다음 순회 순서를 찾아가는 과정을 그림으로 나타내면 다음과 같습니다.
+
+!["TSP_lexi_02"](/assets/images/tsp_lexi_02.png){: .align-center width="60%" height="60%"}
+
+완전 탐색 방법으로 구현한 전체 코드는 아래와 같습니다.
 
 <p align="center">
 <iframe src="/p5/tsp_lexicographic/" width="640" height="600" frameborder="0"></iframe>
